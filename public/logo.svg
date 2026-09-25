@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Comité de IA para la Colaboración en las Redes de Valor">
+  <!-- meridian / globe guide -->
+  <g fill="none" stroke="#00B398" stroke-width="1.1" opacity="0.55">
+    <circle cx="24" cy="24" r="15" />
+    <ellipse cx="24" cy="24" rx="6.2" ry="15" />
+    <ellipse cx="24" cy="24" rx="15" ry="6.2" />
+  </g>
+
+  <!-- dotted globe: outer ring -->
+  <g fill="#5FE3CC">
+    <circle cx="38" cy="24" r="1.6" />
+    <circle cx="36.12" cy="31" r="1.5" />
+    <circle cx="31" cy="36.12" r="1.5" />
+    <circle cx="24" cy="38" r="1.6" />
+    <circle cx="17" cy="36.12" r="1.5" />
+    <circle cx="11.88" cy="31" r="1.5" />
+    <circle cx="10" cy="24" r="1.6" />
+    <circle cx="11.88" cy="17" r="1.5" />
+    <circle cx="17" cy="11.88" r="1.5" />
+    <circle cx="24" cy="10" r="1.6" />
+    <circle cx="31" cy="11.88" r="1.5" />
+    <circle cx="36.12" cy="17" r="1.5" />
+  </g>
+
+  <!-- dotted globe: inner highlights -->
+  <g fill="#00B398">
+    <circle cx="31" cy="24" r="1.25" />
+    <circle cx="27.5" cy="30.06" r="1.15" />
+    <circle cx="20.5" cy="30.06" r="1.15" />
+    <circle cx="17" cy="24" r="1.25" />
+    <circle cx="20.5" cy="17.94" r="1.15" />
+    <circle cx="27.5" cy="17.94" r="1.15" />
+  </g>
+
+  <!-- logistics route arc -->
+  <path d="M8 31 Q20 6 40 18" fill="none" stroke="#00B398" stroke-width="1.8" stroke-linecap="round" opacity="0.9" />
+  <circle cx="40" cy="18" r="3.1" fill="#FC4C02" />
+</svg>
