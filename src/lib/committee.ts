@@ -24,7 +24,7 @@ export const TABS: TabDef[] = [
   { id: "participantes", label: "Participantes" },
   { id: "fechas", label: "Próximas fechas" },
   { id: "formulario", label: "Formulario" },
-  { id: "miembros", label: "Miembros" },
+  { id: "miembros", label: "Pilares" },
 ];
 
 export interface FunctionItem {
