@@ -7,7 +7,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type TabId = "inicio" | "funciones" | "indicadores" | "miembros";
+export type TabId =
+  | "inicio"
+  | "participantes"
+  | "fechas"
+  | "formulario"
+  | "miembros";
 
 export interface TabDef {
   id: TabId;
@@ -16,8 +21,9 @@ export interface TabDef {
 
 export const TABS: TabDef[] = [
   { id: "inicio", label: "Inicio" },
-  { id: "funciones", label: "Funciones" },
-  { id: "indicadores", label: "Indicadores" },
+  { id: "participantes", label: "Participantes" },
+  { id: "fechas", label: "Próximas fechas" },
+  { id: "formulario", label: "Formulario" },
   { id: "miembros", label: "Miembros" },
 ];
 
@@ -94,6 +100,63 @@ export const INDICATORS: Indicator[] = [
     prefix: "",
     label: "guías publicadas",
     detail: "protocolos y manuales",
+  },
+];
+
+export type EventModality = "Virtual" | "Presencial" | "Híbrido";
+
+export interface CommitteeEvent {
+  id: string;
+  title: string;
+  description: string;
+  /** Fecha en formato ISO (YYYY-MM-DD). */
+  date: string;
+  /** Hora legible para mostrar en la agenda. */
+  time: string;
+  place: string;
+  modality: EventModality;
+}
+
+export const EVENTS: CommitteeEvent[] = [
+  {
+    id: "plenaria-oct",
+    title: "Sesión plenaria del comité",
+    description:
+      "Revisión de avances de los pilotos y validación de la hoja de ruta trimestral.",
+    date: "2026-10-15",
+    time: "9:00 a. m.",
+    place: "Sala virtual del comité",
+    modality: "Virtual",
+  },
+  {
+    id: "taller-protocolos",
+    title: "Taller: protocolos de IA responsable",
+    description:
+      "Construcción colaborativa de guías prácticas para adopción segura en operaciones.",
+    date: "2026-10-29",
+    time: "2:30 p. m.",
+    place: "Cámara de Comercio, Bogotá",
+    modality: "Presencial",
+  },
+  {
+    id: "demo-day",
+    title: "Demo day de pilotos",
+    description:
+      "Los equipos presentan resultados de los pilotos de IA en operación real.",
+    date: "2026-11-12",
+    time: "8:30 a. m.",
+    place: "Auditorio central + transmisión en vivo",
+    modality: "Híbrido",
+  },
+  {
+    id: "cierre-anual",
+    title: "Cierre anual y hoja de ruta 2027",
+    description:
+      "Balance de indicadores compartidos y prioridades del comité para el próximo año.",
+    date: "2026-12-03",
+    time: "4:00 p. m.",
+    place: "Sala virtual del comité",
+    modality: "Virtual",
   },
 ];
 

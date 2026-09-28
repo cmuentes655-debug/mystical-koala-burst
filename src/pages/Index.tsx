@@ -5,7 +5,8 @@ import { TopBar } from "@/components/site/TopBar";
 import { TabNav } from "@/components/site/TabNav";
 import { InicioPanel } from "@/components/site/panels/InicioPanel";
 import { FuncionesPanel } from "@/components/site/panels/FuncionesPanel";
-import { IndicadoresPanel } from "@/components/site/panels/IndicadoresPanel";
+import { ProximasFechasPanel } from "@/components/site/panels/ProximasFechasPanel";
+import { FormularioPanel } from "@/components/site/panels/FormularioPanel";
 import {
   MiembrosPanel,
   type MemberAction,
@@ -82,10 +83,12 @@ const Index = () => {
     switch (activeTab) {
       case "inicio":
         return <InicioPanel onJoin={() => setActiveModal("join")} />;
-      case "funciones":
+      case "participantes":
         return <FuncionesPanel />;
-      case "indicadores":
-        return <IndicadoresPanel />;
+      case "fechas":
+        return <ProximasFechasPanel />;
+      case "formulario":
+        return <FormularioPanel />;
       case "miembros":
         return <MiembrosPanel onAction={handleMemberAction} />;
     }

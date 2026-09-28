@@ -54,7 +54,7 @@ export function TabNav({ activeTab, onChange, isMobile }: TabNavProps) {
     <div
       role="tablist"
       aria-label="Secciones del comité"
-      className="relative inline-flex items-center gap-1 rounded-full border border-komite-glow/15 bg-komite-deep/30 p-1 backdrop-blur-md"
+      className="relative inline-flex max-w-full flex-nowrap items-center gap-1 rounded-full border border-komite-glow/15 bg-komite-deep/30 p-1 backdrop-blur-md"
     >
       {TABS.map((tab) => {
         const isActive = tab.id === activeTab;
@@ -68,7 +68,7 @@ export function TabNav({ activeTab, onChange, isMobile }: TabNavProps) {
             tabIndex={isActive ? 0 : -1}
             onClick={() => onChange(tab.id)}
             className={cn(
-              "relative rounded-full px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow lg:px-4",
+              "relative shrink-0 whitespace-nowrap rounded-full px-2.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.12em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow lg:px-4 lg:text-[11px] lg:tracking-[0.16em]",
               isActive
                 ? "text-komite-ink"
                 : "text-komite-soft/55 hover:text-komite-soft",
