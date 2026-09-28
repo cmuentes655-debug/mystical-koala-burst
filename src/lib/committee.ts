@@ -1,9 +1,13 @@
 import {
   BookOpen,
+  Building2,
+  Cpu,
   FlaskConical,
   Gauge,
+  Landmark,
   Lightbulb,
   Network,
+  Truck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -12,7 +16,7 @@ export type TabId =
   | "participantes"
   | "fechas"
   | "formulario"
-  | "miembros";
+  | "pilares";
 
 export interface TabDef {
   id: TabId;
@@ -24,7 +28,7 @@ export const TABS: TabDef[] = [
   { id: "participantes", label: "Participantes" },
   { id: "fechas", label: "Próximas fechas" },
   { id: "formulario", label: "Formulario" },
-  { id: "miembros", label: "Pilares" },
+  { id: "pilares", label: "Pilares" },
 ];
 
 export interface FunctionItem {
@@ -165,6 +169,114 @@ export const ACTOR_TYPES = [
   "Transportista / Proveedor",
   "Institución, gremio o academia",
   "Proveedor tecnológico",
+] as const;
+
+export type ActorType = (typeof ACTOR_TYPES)[number];
+
+export interface Participant {
+  id: string;
+  name: string;
+  type: ActorType;
+  role: string;
+  representative: string;
+}
+
+export interface ParticipantGroup {
+  type: ActorType;
+  label: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+/** Orden y encabezados de los grupos del directorio de participantes. */
+export const PARTICIPANT_GROUPS: ParticipantGroup[] = [
+  {
+    type: "Empresa / Operador logístico",
+    label: "Empresas y operadores logísticos",
+    description:
+      "Operadores de carga, almacenamiento y distribución que mueven la red de valor.",
+    icon: Building2,
+  },
+  {
+    type: "Transportista / Proveedor",
+    label: "Transportistas y proveedores",
+    description:
+      "Transportadores y proveedores de servicios especializados de la cadena.",
+    icon: Truck,
+  },
+  {
+    type: "Institución, gremio o academia",
+    label: "Instituciones, gremios y academia",
+    description:
+      "Entidades que aportan conocimiento, estándares y marco de colaboración.",
+    icon: Landmark,
+  },
+  {
+    type: "Proveedor tecnológico",
+    label: "Aliados tecnológicos",
+    description:
+      "Plataformas y equipos que desarrollan soluciones de IA para la logística.",
+    icon: Cpu,
+  },
+];
+
+export const PARTICIPANTS: Participant[] = [
+  {
+    id: "logistica-andina",
+    name: "Logística Andina S.A.",
+    type: "Empresa / Operador logístico",
+    role: "Miembro fundador",
+    representative: "Camila Restrepo",
+  },
+  {
+    id: "puerto-seco-occidente",
+    name: "Puerto Seco Occidente",
+    type: "Empresa / Operador logístico",
+    role: "Miembro activo",
+    representative: "Andrés Villalba",
+  },
+  {
+    id: "transportes-del-norte",
+    name: "Transportes del Norte",
+    type: "Transportista / Proveedor",
+    role: "Miembro activo",
+    representative: "Julián Ospina",
+  },
+  {
+    id: "red-transportadores",
+    name: "Red de Transportadores Centro",
+    type: "Transportista / Proveedor",
+    role: "Líder de piloto",
+    representative: "Marta Quintero",
+  },
+  {
+    id: "camara-comercio",
+    name: "Cámara de Comercio Regional",
+    type: "Institución, gremio o academia",
+    role: "Miembro fundador",
+    representative: "Diego Salcedo",
+  },
+  {
+    id: "universidad-politecnica",
+    name: "Universidad Politécnica del Centro",
+    type: "Institución, gremio o academia",
+    role: "Socio académico",
+    representative: "Lucía Ferrer",
+  },
+  {
+    id: "nodo-ia-logistica",
+    name: "Nodo IA Logística",
+    type: "Proveedor tecnológico",
+    role: "Aliado tecnológico",
+    representative: "Santiago Rueda",
+  },
+  {
+    id: "dataflow-analytics",
+    name: "Dataflow Analytics",
+    type: "Proveedor tecnológico",
+    role: "Observador técnico",
+    representative: "Valentina Cruz",
+  },
 ];
 
 export type FileKind = "pdf" | "sheet" | "doc" | "image";

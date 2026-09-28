@@ -4,13 +4,10 @@ import { ParticlesBackground } from "@/components/site/ParticlesBackground";
 import { TopBar } from "@/components/site/TopBar";
 import { TabNav } from "@/components/site/TabNav";
 import { InicioPanel } from "@/components/site/panels/InicioPanel";
-import { FuncionesPanel } from "@/components/site/panels/FuncionesPanel";
+import { ParticipantesPanel } from "@/components/site/panels/ParticipantesPanel";
 import { ProximasFechasPanel } from "@/components/site/panels/ProximasFechasPanel";
 import { FormularioPanel } from "@/components/site/panels/FormularioPanel";
-import {
-  MiembrosPanel,
-  type MemberAction,
-} from "@/components/site/panels/MiembrosPanel";
+import { PilaresPanel } from "@/components/site/panels/PilaresPanel";
 import { JoinModal } from "@/components/site/modals/JoinModal";
 import { LoginModal } from "@/components/site/modals/LoginModal";
 import { UploadModal } from "@/components/site/modals/UploadModal";
@@ -18,7 +15,7 @@ import { TABS, type TabId } from "@/lib/committee";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-type ModalId = MemberAction | null;
+type ModalId = "join" | "login" | "upload" | null;
 
 const panelVariants: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 56 }),
@@ -74,23 +71,18 @@ const Index = () => {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeModal, stepTab]);
 
-  const handleMemberAction = React.useCallback(
-    (action: MemberAction) => setActiveModal(action),
-    [],
-  );
-
   const renderPanel = () => {
     switch (activeTab) {
       case "inicio":
         return <InicioPanel onJoin={() => setActiveModal("join")} />;
       case "participantes":
-        return <FuncionesPanel />;
+        return <ParticipantesPanel />;
       case "fechas":
         return <ProximasFechasPanel />;
       case "formulario":
         return <FormularioPanel />;
-      case "miembros":
-        return <MiembrosPanel onAction={handleMemberAction} />;
+      case "pilares":
+        return <PilaresPanel onUpload={() => setActiveModal("upload")} />;
     }
   };
 
