@@ -10,7 +10,11 @@ export function TopBar({ onLogin, onJoin }: TopBarProps) {
   return (
     <header className="relative z-30 flex shrink-0 items-center justify-between gap-3 border-b border-komite-glow/15 bg-komite-deep/40 px-4 py-2.5 backdrop-blur-xl sm:px-6 sm:py-3 lg:px-10">
       <div className="flex min-w-0 items-center gap-2.5">
-        <img src="/logo.svg" alt="" className="h-9 w-9 shrink-0" />
+        <img
+          src={`${import.meta.env.BASE_URL}logo.svg`}
+          alt=""
+          className="h-9 w-9 shrink-0"
+        />
         <span className="flex min-w-0 flex-col leading-tight">
           <span className="truncate font-display text-sm font-semibold tracking-tight text-komite-ink sm:text-base">
             Comité de IA
