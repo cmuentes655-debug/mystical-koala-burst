@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
-import { GlobeCanvas } from "@/components/globe/GlobeCanvas";
+import { ParticlesBackground } from "@/components/site/ParticlesBackground";
 import { TopBar } from "@/components/site/TopBar";
 import { TabNav } from "@/components/site/TabNav";
 import { InicioPanel } from "@/components/site/panels/InicioPanel";
@@ -13,7 +13,7 @@ import {
 import { JoinModal } from "@/components/site/modals/JoinModal";
 import { LoginModal } from "@/components/site/modals/LoginModal";
 import { UploadModal } from "@/components/site/modals/UploadModal";
-import { FUNCTIONS, TABS, type TabId } from "@/lib/committee";
+import { TABS, type TabId } from "@/lib/committee";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
@@ -29,13 +29,7 @@ const Index = () => {
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = React.useState<TabId>("inicio");
   const [direction, setDirection] = React.useState(1);
-  const [hoveredFunction, setHoveredFunction] = React.useState<number | null>(
-    null,
-  );
   const [activeModal, setActiveModal] = React.useState<ModalId>(null);
-
-  const hoveredArcId =
-    hoveredFunction === null ? null : FUNCTIONS[hoveredFunction]?.arcId ?? null;
 
   const changeTab = React.useCallback(
     (next: TabId) => {
@@ -44,7 +38,6 @@ const Index = () => {
       const nextIndex = TABS.findIndex((tab) => tab.id === next);
       setDirection(nextIndex > currentIndex ? 1 : -1);
       setActiveTab(next);
-      setHoveredFunction(null);
     },
     [activeTab],
   );
@@ -90,7 +83,7 @@ const Index = () => {
       case "inicio":
         return <InicioPanel onJoin={() => setActiveModal("join")} />;
       case "funciones":
-        return <FuncionesPanel onHoverFunction={setHoveredFunction} />;
+        return <FuncionesPanel />;
       case "indicadores":
         return <IndicadoresPanel />;
       case "miembros":
@@ -100,35 +93,31 @@ const Index = () => {
 
   return (
     <div
-      className="relative flex h-screen flex-col overflow-hidden"
+      className="relative flex flex-col overflow-hidden"
       style={{ height: "100dvh" }}
     >
+      {/* Fondo de partículas fijo detrás de todo el contenido. */}
+      <ParticlesBackground />
+
+      {/* Veladura radial para asegurar contraste del texto sobre las partículas. */}
+      <div
+        aria-hidden="true"
+        className="content-veil pointer-events-none fixed inset-0 z-[1]"
+      />
+
       <TopBar
         onLogin={() => setActiveModal("login")}
         onJoin={() => setActiveModal("join")}
       />
 
-      <main className="relative flex min-h-0 flex-1 flex-col md:flex-row">
-        {/* Globo: bloque superior en móvil, mitad derecha en escritorio */}
-        <div className="pointer-events-none relative z-0 h-[36%] min-h-[170px] shrink-0 md:pointer-events-auto md:absolute md:inset-y-0 md:right-0 md:h-full md:min-h-0 md:w-[46%] md:max-w-[780px]">
-          <GlobeCanvas
-            activeTab={activeTab}
-            hoveredArcId={hoveredArcId}
-            className="absolute inset-0"
-          />
-          <div
-            className="absolute inset-0 md:hidden"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 34%, rgba(0,33,29,0) 32%, rgba(0,33,29,0.72) 76%)",
-            }}
-          />
-        </div>
-
-        {/* Contenido navegable */}
-        <section className="relative z-10 flex min-h-0 flex-1 flex-col">
-          <div className="flex shrink-0 justify-center px-4 pt-3 md:justify-start md:px-10 md:pt-6">
-            <TabNav activeTab={activeTab} onChange={changeTab} isMobile={isMobile} />
+      <main className="relative z-10 flex min-h-0 flex-1 flex-col">
+        <div className="mx-auto flex min-h-0 w-full max-w-[900px] flex-1 flex-col">
+          <div className="flex shrink-0 justify-center px-4 pt-4 md:pt-6">
+            <TabNav
+              activeTab={activeTab}
+              onChange={changeTab}
+              isMobile={isMobile}
+            />
           </div>
 
           <motion.div
@@ -141,7 +130,7 @@ const Index = () => {
               if (info.offset.x < -70 || info.velocity.x < -420) stepTab(1);
               else if (info.offset.x > 70 || info.velocity.x > 420) stepTab(-1);
             }}
-            className="relative min-h-0 flex-1 overflow-hidden px-5 py-3 md:px-10 md:py-6"
+            className="relative min-h-0 flex-1 overflow-hidden px-4 py-4 md:px-6 md:py-6"
           >
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
@@ -155,7 +144,7 @@ const Index = () => {
                 role="tabpanel"
                 id={`panel-${activeTab}`}
                 aria-labelledby={`tab-${activeTab}`}
-                className="absolute inset-0 flex items-center"
+                className="absolute inset-0 flex items-center justify-center"
               >
                 <div className="no-scrollbar max-h-full w-full overflow-y-auto">
                   {renderPanel()}
@@ -164,7 +153,7 @@ const Index = () => {
             </AnimatePresence>
           </motion.div>
 
-          <div className="hidden shrink-0 items-center justify-between gap-4 px-10 pb-6 md:flex">
+          <div className="flex shrink-0 items-center justify-center gap-4 px-4 pb-5">
             <div className="flex items-center gap-1">
               {TABS.map((tab) => (
                 <button
@@ -189,13 +178,7 @@ const Index = () => {
               Usa ← → o desliza
             </span>
           </div>
-        </section>
-
-        {/* Reserva de espacio para el globo en escritorio */}
-        <div
-          aria-hidden="true"
-          className="hidden shrink-0 md:block md:w-[46%] md:max-w-[780px]"
-        />
+        </div>
       </main>
 
       <JoinModal

@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
 import { FUNCTIONS } from "@/lib/committee";
+import { cn } from "@/lib/utils";
 
-interface FuncionesPanelProps {
-  onHoverFunction: (index: number | null) => void;
-}
-
-export function FuncionesPanel({ onHoverFunction }: FuncionesPanelProps) {
+export function FuncionesPanel() {
   return (
-    <div className="flex w-full max-w-xl flex-col gap-3 sm:gap-4">
-      <header className="flex flex-col gap-1">
+    <div className="mx-auto flex w-full flex-col gap-5">
+      <header className="flex flex-col items-center gap-1 text-center">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-komite-glow/80">
           Funciones
         </span>
@@ -17,42 +14,39 @@ export function FuncionesPanel({ onHoverFunction }: FuncionesPanelProps) {
         </h2>
       </header>
 
-      <ul className="flex flex-col gap-1.5">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-6">
         {FUNCTIONS.map((fn, index) => {
           const Icon = fn.icon;
           return (
-            <li key={fn.id}>
-              <motion.button
-                type="button"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.4, delay: 0.05 * index },
-                }}
-                whileHover={{ x: 4 }}
-                onMouseEnter={() => onHoverFunction(index)}
-                onMouseLeave={() => onHoverFunction(null)}
-                onFocus={() => onHoverFunction(index)}
-                onBlur={() => onHoverFunction(null)}
-                className="group flex w-full items-start gap-3 rounded-2xl border border-transparent px-3 py-2 text-left transition-colors duration-200 hover:border-komite-glow/30 hover:bg-komite-turquoise/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow focus-visible:ring-offset-2 focus-visible:ring-offset-komite-deep"
-              >
-                <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-xl border border-komite-glow/25 bg-komite-turquoise/15 text-komite-glow transition-colors group-hover:border-komite-glow/60 group-hover:text-komite-ink">
-                  <Icon className="h-4 w-4" />
+            <motion.div
+              key={fn.id}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: { duration: 0.45, delay: 0.05 * index },
+              }}
+              whileHover={{ y: -3 }}
+              className={cn(
+                "glass col-span-1 flex flex-col gap-3 rounded-2xl p-4 sm:col-span-2",
+                index === 3 && "sm:col-start-2",
+              )}
+            >
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-komite-glow/30 bg-komite-turquoise/15 text-komite-glow">
+                <Icon className="h-4 w-4" />
+              </span>
+              <span className="flex flex-col gap-1">
+                <span className="font-display text-sm font-semibold leading-tight text-komite-ink">
+                  {fn.title}
                 </span>
-                <span className="flex min-w-0 flex-col gap-0.5">
-                  <span className="font-display text-[13px] font-semibold text-komite-ink sm:text-sm">
-                    {fn.title}
-                  </span>
-                  <span className="text-[11.5px] leading-snug text-komite-soft/85 sm:text-xs">
-                    {fn.description}
-                  </span>
+                <span className="text-xs leading-snug text-komite-soft/85">
+                  {fn.description}
                 </span>
-              </motion.button>
-            </li>
+              </span>
+            </motion.div>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }

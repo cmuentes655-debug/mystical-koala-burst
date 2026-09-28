@@ -22,7 +22,7 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
       variants={container}
       initial="hidden"
       animate="show"
-      className="flex max-w-2xl flex-col items-start gap-5 sm:gap-6"
+      className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 text-center"
     >
       <motion.span
         variants={item}
@@ -37,7 +37,7 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
 
       <motion.h1
         variants={item}
-        className="text-balance font-display text-[1.65rem] font-semibold leading-[1.14] tracking-tight text-komite-ink sm:text-[2.1rem] lg:text-[2.7rem]"
+        className="text-balance font-display text-[2rem] font-semibold leading-[1.08] tracking-tight text-komite-ink sm:text-[2.75rem] lg:text-[3.5rem]"
       >
         Comité de Adopción de IA para la Colaboración{" "}
         <span className="text-komite-glow">en las Redes de Valor</span>
@@ -45,7 +45,7 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
 
       <motion.p
         variants={item}
-        className="text-sm leading-relaxed text-komite-soft sm:text-base"
+        className="max-w-xl text-base leading-relaxed text-komite-soft sm:text-lg"
       >
         Impulsamos la inteligencia artificial para que la logística colabore
         mejor, de extremo a extremo.

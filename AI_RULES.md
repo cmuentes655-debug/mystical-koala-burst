@@ -22,11 +22,13 @@ Available packages and libraries:
 
 - Paleta turquesa en tokens `komite.*` (`deep`, `base`, `mid`, `turquoise`, `glow`, `accent`, `ink`, `soft`, `faint`) definidos en `tailwind.config.ts`. Acento naranja `komite-accent`, siempre con texto oscuro para cumplir contraste AA.
 - Tipografías: `font-display` (Space Grotesk), `font-sans` (Inter), `font-mono` (JetBrains Mono).
-- Utilidades propias en `src/globals.css`: `.glass`, `.glass-strong`, `.no-scrollbar`.
+- Utilidades propias en `src/globals.css`: `.glass`, `.glass-strong`, `.no-scrollbar`, `.particles-bg`, `.content-veil`.
 
-# Three.js / React Three Fiber
+# Fondo de partículas (tsParticles v4)
 
-- Los elementos de three.js se referencian como expresiones de miembro desde `src/components/globe/r3f.ts`: `<r3f.mesh>`, `<r3f.group>`, `<r3f.points>`, `<r3f.Line>`, etc. NUNCA como etiquetas simples (`<mesh>`).
-- Motivo: el plugin de desarrollo `@dyad-sh/react-vite-component-tagger` inyecta `data-dyad-id` y `data-dyad-name` en todo elemento JSX con nombre simple; React Three Fiber intenta aplicarlos a los objetos de three.js y falla con `R3F: Cannot set "data-dyad-name"`. Las expresiones de miembro (`objeto.propiedad`) se saltan esa inyección.
-- El tipado se conserva: `<r3f.sphereGeometry args={[1, 4, 4]} />` sigue validando `args` contra los tipos de R3F. Al añadir un elemento nuevo, agrégalo primero al objeto `r3f`.
+- El fondo de la landing es una red de partículas tsParticles montada por `src/components/site/ParticlesBackground.tsx` (fijo, `z-0`, `aria-hidden`, `pointer-events: none`).
+- API v4 (importante): usa `ParticlesProvider` (no `initParticlesEngine`) con `init={loadSlim}`, y el color de partícula se define en `particles.paint.color.value` (NO en `particles.color`).
+- El contenedor y su `canvas` deben llevar `.particles-bg` para no capturar clics; el contenido va en `z-10` y `TopBar` en `z-30`.
+- Convención de tagger: los componentes de terceros de nombre simple se renderizan mediante expresión de miembro (p. ej. `import * as tsparticlesReact` y `<tsparticlesReact.Particles />`) para que el plugin `@dyad-sh/react-vite-component-tagger` no inyecte `data-dyad-*`.
+- `three`, `@react-three/fiber` y `@react-three/drei` ya no forman parte del proyecto.
 

@@ -26,8 +26,6 @@ export interface FunctionItem {
   title: string;
   description: string;
   icon: LucideIcon;
-  /** Id del arco del globo que se ilumina al pasar el cursor (mapeo 1:1). */
-  arcId: string;
 }
 
 export const FUNCTIONS: FunctionItem[] = [
@@ -37,7 +35,6 @@ export const FUNCTIONS: FunctionItem[] = [
     description:
       "Conectamos empresas, instituciones y gremios de la cadena logística.",
     icon: Network,
-    arcId: "arc-shanghai-rotterdam",
   },
   {
     id: "guias",
@@ -45,7 +42,6 @@ export const FUNCTIONS: FunctionItem[] = [
     description:
       "Desarrollamos lineamientos prácticos para adoptar IA de forma responsable.",
     icon: BookOpen,
-    arcId: "arc-singapore-la",
   },
   {
     id: "practicas",
@@ -53,7 +49,6 @@ export const FUNCTIONS: FunctionItem[] = [
     description:
       "Compartimos información, casos y aprendizajes entre miembros.",
     icon: Lightbulb,
-    arcId: "arc-rotterdam-ny",
   },
   {
     id: "pilotos",
@@ -61,14 +56,12 @@ export const FUNCTIONS: FunctionItem[] = [
     description:
       "Implementamos pilotos y validamos herramientas de IA en operaciones reales.",
     icon: FlaskConical,
-    arcId: "arc-santos-rotterdam",
   },
   {
     id: "indicadores",
     title: "Indicadores comunes",
     description: "Monitoreamos los avances con métricas compartidas.",
     icon: Gauge,
-    arcId: "arc-dubai-singapore",
   },
 ];
 
@@ -131,78 +124,3 @@ export const SAMPLE_FILES: SampleFile[] = [
   { id: "f3", name: "Protocolo_Pilotos_v3.docx", size: "1.1 MB", kind: "doc" },
   { id: "f4", name: "Mapa_Redes_Valor.png", size: "3.8 MB", kind: "image" },
 ];
-
-/** Coordenadas [latitud, longitud] de nodos logísticos usados por los arcos. */
-export type LatLon = [number, number];
-
-export interface ArcDef {
-  id: string;
-  from: LatLon;
-  to: LatLon;
-  /** Pestañas en las que el arco aparece activo. */
-  tabs: TabId[];
-}
-
-export const ARCS: ArcDef[] = [
-  {
-    id: "arc-shanghai-rotterdam",
-    from: [31.2, 121.5],
-    to: [51.9, 4.0],
-    tabs: ["inicio", "funciones", "indicadores"],
-  },
-  {
-    id: "arc-singapore-la",
-    from: [1.35, 103.8],
-    to: [33.7, -118.2],
-    tabs: ["inicio", "funciones", "indicadores"],
-  },
-  {
-    id: "arc-rotterdam-ny",
-    from: [51.9, 4.0],
-    to: [40.7, -74.0],
-    tabs: ["inicio", "miembros", "indicadores"],
-  },
-  {
-    id: "arc-santos-rotterdam",
-    from: [-23.9, -46.3],
-    to: [51.9, 4.0],
-    tabs: ["funciones", "miembros", "indicadores"],
-  },
-  {
-    id: "arc-dubai-singapore",
-    from: [25.2, 55.3],
-    to: [1.35, 103.8],
-    tabs: ["funciones", "indicadores"],
-  },
-  {
-    id: "arc-ny-santos",
-    from: [40.7, -74.0],
-    to: [-23.9, -46.3],
-    tabs: ["miembros", "indicadores"],
-  },
-  {
-    id: "arc-mumbai-capetown",
-    from: [19.0, 72.8],
-    to: [-33.9, 18.4],
-    tabs: ["indicadores"],
-  },
-  {
-    id: "arc-tokyo-sydney",
-    from: [35.7, 139.7],
-    to: [-33.9, 151.2],
-    tabs: ["indicadores"],
-  },
-];
-
-/** Rotación objetivo (radianes) del globo según la pestaña activa. */
-export const TAB_ROTATION: Record<TabId, number> = {
-  inicio: 0,
-  funciones: -0.42,
-  indicadores: 0.2,
-  miembros: 0.62,
-};
-
-export const globeArcsForTab = (tab: TabId): ArcDef[] =>
-  ARCS.filter((arc) => arc.tabs.includes(tab));
-
-export const ALL_ARCS_ACTIVE: TabId = "indicadores";

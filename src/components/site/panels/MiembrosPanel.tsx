@@ -42,8 +42,8 @@ interface MiembrosPanelProps {
 
 export function MiembrosPanel({ onAction }: MiembrosPanelProps) {
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-4">
-      <header className="flex flex-col gap-1">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
+      <header className="flex flex-col items-center gap-1 text-center">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-komite-glow/80">
           Miembros
         </span>

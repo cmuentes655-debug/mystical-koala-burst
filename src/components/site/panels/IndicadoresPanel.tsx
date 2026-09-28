@@ -27,12 +27,12 @@ function CountUp({ value, prefix }: CountUpProps) {
 
 export function IndicadoresPanel() {
   return (
-    <div className="flex w-full max-w-xl flex-col gap-6">
-      <header className="flex flex-col gap-1">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6">
+      <header className="flex flex-col items-center gap-1 text-center">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-komite-glow/80">
           Indicadores
         </span>
-        <h2 className="max-w-md font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
+        <h2 className="font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
           La red avanza con métricas compartidas
         </h2>
       </header>
