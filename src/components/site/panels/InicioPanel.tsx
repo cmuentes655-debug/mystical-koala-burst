@@ -39,7 +39,7 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
         variants={item}
         className="text-balance font-display text-[2rem] font-semibold leading-[1.08] tracking-tight text-komite-ink sm:text-[2.75rem] lg:text-[3.5rem]"
       >
-        Comité de Adopción de IA para la Colaboración{" "}
+        Adopción de IA para la Colaboración{" "}
         <span className="text-komite-glow">en las Redes de Valor</span>
       </motion.h1>
 
