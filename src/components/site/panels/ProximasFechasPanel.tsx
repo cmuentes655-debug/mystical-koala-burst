@@ -1,10 +1,10 @@
 import { motion, type Variants } from "framer-motion";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
-import { CalendarClock, Clock, MapPin } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { EVENTS, type EventModality } from "@/lib/committee";
-import { cn } from "@/lib/utils";
+import { CalendarClock, CalendarPlus, Clock, MapPin } from "lucide-react";
+import { EVENTS, type CommitteeEvent } from "@/lib/committee";
+import { ModalityBadge } from "../ModalityBadge";
+import { ActionButton } from "../ActionButton";
 
 const container: Variants = {
   hidden: {},
@@ -16,18 +16,15 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
 };
 
-const MODALITY_CLASS: Record<EventModality, string> = {
-  Virtual: "border-komite-glow/45 bg-komite-turquoise/15 text-komite-glow",
-  Presencial: "border-komite-accent/50 bg-komite-accent/15 text-komite-accent",
-  Híbrido:
-    "border-komite-mid/45 bg-komite-turquoise/20 text-komite-soft",
-};
-
 function stripDot(value: string) {
   return value.replace(/\.$/, "");
 }
 
-export function ProximasFechasPanel() {
+interface ProximasFechasPanelProps {
+  onRegister: (event: CommitteeEvent) => void;
+}
+
+export function ProximasFechasPanel({ onRegister }: ProximasFechasPanelProps) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-5">
       <header className="flex flex-col items-center gap-1 text-center">
@@ -72,18 +69,20 @@ export function ProximasFechasPanel() {
                 </div>
 
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
-                  <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-1.5">
+                  <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
                     <span className="font-display text-sm font-semibold leading-tight text-komite-ink">
                       {event.title}
                     </span>
-                    <Badge
-                      className={cn(
-                        "shrink-0 px-2.5 py-0.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em]",
-                        MODALITY_CLASS[event.modality],
-                      )}
-                    >
-                      {event.modality}
-                    </Badge>
+                    <div className="ml-auto flex shrink-0 flex-col items-end gap-1.5">
+                      <ModalityBadge modality={event.modality} />
+                      <ActionButton
+                        onClick={() => onRegister(event)}
+                        className="px-4 py-2 text-[13px]"
+                      >
+                        <CalendarPlus className="h-4 w-4" />
+                        Inscribirse
+                      </ActionButton>
+                    </div>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-komite-soft/80">

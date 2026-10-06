@@ -11,11 +11,12 @@ import { PilaresPanel } from "@/components/site/panels/PilaresPanel";
 import { JoinModal } from "@/components/site/modals/JoinModal";
 import { LoginModal } from "@/components/site/modals/LoginModal";
 import { UploadModal } from "@/components/site/modals/UploadModal";
-import { TABS, type TabId } from "@/lib/committee";
+import { InscripcionEventoModal } from "@/components/site/modals/InscripcionEventoModal";
+import { TABS, type TabId, type CommitteeEvent } from "@/lib/committee";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-type ModalId = "join" | "login" | "upload" | null;
+type ModalId = "join" | "login" | "upload" | "inscribirse" | null;
 
 const panelVariants: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 56 }),
@@ -28,6 +29,9 @@ const Index = () => {
   const [activeTab, setActiveTab] = React.useState<TabId>("inicio");
   const [direction, setDirection] = React.useState(1);
   const [activeModal, setActiveModal] = React.useState<ModalId>(null);
+  const [registerEvent, setRegisterEvent] = React.useState<CommitteeEvent | null>(
+    null,
+  );
 
   const changeTab = React.useCallback(
     (next: TabId) => {
@@ -78,7 +82,14 @@ const Index = () => {
       case "participantes":
         return <ParticipantesPanel />;
       case "fechas":
-        return <ProximasFechasPanel />;
+        return (
+          <ProximasFechasPanel
+            onRegister={(event) => {
+              setRegisterEvent(event);
+              setActiveModal("inscribirse");
+            }}
+          />
+        );
       case "formulario":
         return <FormularioPanel />;
       case "pilares":
@@ -187,6 +198,14 @@ const Index = () => {
       <UploadModal
         open={activeModal === "upload"}
         onOpenChange={(open) => setActiveModal(open ? "upload" : null)}
+      />
+      <InscripcionEventoModal
+        open={activeModal === "inscribirse"}
+        onOpenChange={(open) => {
+          setActiveModal(open ? "inscribirse" : null);
+          if (!open) setRegisterEvent(null);
+        }}
+        event={registerEvent}
       />
     </div>
   );

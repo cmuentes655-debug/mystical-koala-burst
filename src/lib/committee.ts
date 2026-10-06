@@ -27,7 +27,6 @@ export const TABS: TabDef[] = [
   { id: "inicio", label: "Inicio" },
   { id: "participantes", label: "Participantes" },
   { id: "fechas", label: "Próximas fechas" },
-  { id: "formulario", label: "Formulario" },
   { id: "pilares", label: "Pilares" },
 ];
 
