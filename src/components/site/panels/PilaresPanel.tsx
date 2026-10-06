@@ -12,9 +12,6 @@ export function PilaresPanel({ onUpload }: PilaresPanelProps) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-5">
       <header className="flex flex-col items-center gap-1 text-center">
-        <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-komite-glow/80">
-          Pilares
-        </span>
         <h2 className="font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
           Los pilares del comité
         </h2>
