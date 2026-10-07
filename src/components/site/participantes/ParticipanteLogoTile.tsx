@@ -6,6 +6,11 @@ interface ParticipanteLogoTileProps {
   file: string;
   /** Nombre de la organización, usado como `alt`/`aria-label`. */
   name: string;
+  /**
+   * Ajuste vertical fino en px (positivo = hacia arriba) para logos cuyo
+   * contenido viene descentrado dentro de su propio archivo.
+   */
+  nudgeY?: number;
   className?: string;
 }
 
@@ -17,6 +22,7 @@ interface ParticipanteLogoTileProps {
 export function ParticipanteLogoTile({
   file,
   name,
+  nudgeY = 0,
   className,
 }: ParticipanteLogoTileProps) {
   return (
@@ -38,6 +44,7 @@ export function ParticipanteLogoTile({
         loading="lazy"
         decoding="async"
         draggable={false}
+        style={nudgeY ? { transform: `translateY(-${nudgeY}px)` } : undefined}
         className="max-h-full w-full object-contain"
       />
     </div>

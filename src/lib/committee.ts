@@ -165,36 +165,45 @@ export interface ParticipantLogo {
   name: string;
   /** Nombre de archivo dentro de `public/participantes/`. */
   file: string;
+  /**
+   * Ajuste vertical fino en px (positivo = hacia arriba) para logos cuyo
+   * contenido viene descentrado dentro de su propio archivo.
+   */
+  nudgeY?: number;
 }
+
+/** Desplazamiento por defecto para los logos descentrados en su lienzo. */
+const NUDGE_Y = 6;
 
 /**
  * Muro de logos reales de las organizaciones participantes.
- * Los archivos sin marca identificable usan un nombre genérico solo para `alt`.
+ * Los archivos con nombre poco descriptivo usan un nombre legible derivado
+ * solo para `alt`/`aria-label` (no se muestran en pantalla).
  */
 export const PARTICIPANT_LOGOS: ParticipantLogo[] = [
-  { id: "ai-jump", name: "AI Jump", file: "AI+Jump+Cube+Color+Logo-640w.webp" },
-  { id: "alizanza-tea", name: "Participante", file: "alizanza tea.png" },
+  { id: "agv", name: "AGV", file: "agv.jpg" },
+  { id: "ai-jump", name: "AI Jump", file: "jump cube.webp" },
+  { id: "alianza-tea", name: "Alianza Tea", file: "alizanza tea.png" },
+  { id: "ccl", name: "CCL", file: "ccl.png", nudgeY: NUDGE_Y },
+  { id: "controlt", name: "ControlT", file: "controlt.png" },
+  { id: "corona", name: "Corona", file: "corona.jpg", nudgeY: NUDGE_Y },
+  { id: "datecsa", name: "Datecsa", file: "datecsa.webp" },
   { id: "datup", name: "Datup", file: "datup_logo.jpg" },
+  { id: "enalia", name: "Enalia", file: "enalia.png" },
   { id: "falabella", name: "Falabella", file: "Falabella.svg.webp" },
-  { id: "harinera-pardo", name: "Harinera Pardo", file: "harinera-pardo.png" },
-  { id: "participante-1", name: "Participante", file: "images (1).jpg" },
-  { id: "participante-2", name: "Participante", file: "images (1).png" },
-  { id: "participante-3", name: "Participante", file: "images (2).png" },
-  { id: "participante-4", name: "Participante", file: "images (3).png" },
-  { id: "participante-5", name: "Participante", file: "images (4).png" },
-  { id: "participante-6", name: "Participante", file: "images.jpg" },
-  { id: "participante-7", name: "Participante", file: "images.png" },
-  { id: "participante-8", name: "Participante", file: "iw.png" },
-  { id: "grupo-bimbo", name: "Grupo Bimbo", file: "Logo_Grupo_BIMBO.svg.webp" },
-  { id: "participante-9", name: "Participante", file: "logo_vertical_ur_rojo.png" },
-  { id: "datecsa", name: "Datecsa", file: "Logo-Datecsa-1500x460.webp" },
-  { id: "participante-10", name: "Participante", file: "logo-footer.png" },
-  { id: "participante-11", name: "Participante", file: "logo-name-color.png" },
-  { id: "nestle", name: "Nestlé", file: "Nestle.jpg" },
+  { id: "grupo-bimbo", name: "Grupo Bimbo", file: "bimbo.webp" },
+  { id: "harinera-pardo", name: "Harinera Pardo", file: "harinera-pardo.png", nudgeY: NUDGE_Y },
+  { id: "heinsohn", name: "Heinsohn", file: "heinsohn.png" },
+  { id: "henkel", name: "Henkel", file: "henkel.png", nudgeY: NUDGE_Y },
+  { id: "iw", name: "IW", file: "iw.png" },
+  { id: "kenvue", name: "Kenvue", file: "kenvue.png", nudgeY: NUDGE_Y },
+  { id: "makro", name: "Makro", file: "makro.png" },
+  { id: "nestle", name: "Nestlé", file: "Nestle.jpg", nudgeY: NUDGE_Y },
+  { id: "pcs", name: "PCS", file: "pcs.jpg" },
   { id: "simoniz", name: "Simoniz", file: "simoniz.svg" },
   { id: "tecnoquimicas", name: "Tecnoquímicas", file: "tecnoquimicas.jpg" },
-  { id: "tiendas-d1", name: "Tiendas D1", file: "Tiendas_D1_logo.svg.webp" },
-  { id: "participante-12", name: "Participante", file: "unnamed.jpg" },
+  { id: "tiendas-d1", name: "Tiendas D1", file: "D1.webp" },
+  { id: "universidad-rosario", name: "Universidad del Rosario", file: "universidad_rosario.png" },
 ];
 
 /** URL del logo respetando la ruta base de despliegue y codificando el archivo. */

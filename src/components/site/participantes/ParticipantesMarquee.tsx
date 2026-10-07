@@ -30,7 +30,11 @@ export function ParticipantesMarquee() {
               aria-hidden={isClone}
               className="w-32 shrink-0 pr-3 sm:w-44 sm:pr-5"
             >
-              <ParticipanteLogoTile file={logo.file} name={logo.name} />
+              <ParticipanteLogoTile
+                file={logo.file}
+                name={logo.name}
+                nudgeY={logo.nudgeY}
+              />
             </li>
           );
         })}
