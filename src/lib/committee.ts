@@ -1,11 +1,7 @@
 import {
   Blocks,
-  Building2,
-  Cpu,
   Database,
   HeartHandshake,
-  Landmark,
-  Truck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -163,111 +159,47 @@ export const ACTOR_TYPES = [
 
 export type ActorType = (typeof ACTOR_TYPES)[number];
 
-export interface Participant {
+export interface ParticipantLogo {
   id: string;
+  /** Nombre de la organización para `alt`/`aria-label`. */
   name: string;
-  type: ActorType;
-  role: string;
-  representative: string;
+  /** Nombre de archivo dentro de `public/participantes/`. */
+  file: string;
 }
 
-export interface ParticipantGroup {
-  type: ActorType;
-  label: string;
-  description: string;
-  icon: LucideIcon;
-}
-
-/** Orden y encabezados de los grupos del directorio de participantes. */
-export const PARTICIPANT_GROUPS: ParticipantGroup[] = [
-  {
-    type: "Empresa / Operador logístico",
-    label: "Empresas y operadores logísticos",
-    description:
-      "Operadores de carga, almacenamiento y distribución que mueven la red de valor.",
-    icon: Building2,
-  },
-  {
-    type: "Transportista / Proveedor",
-    label: "Transportistas y proveedores",
-    description:
-      "Transportadores y proveedores de servicios especializados de la cadena.",
-    icon: Truck,
-  },
-  {
-    type: "Institución, gremio o academia",
-    label: "Instituciones, gremios y academia",
-    description:
-      "Entidades que aportan conocimiento, estándares y marco de colaboración.",
-    icon: Landmark,
-  },
-  {
-    type: "Proveedor tecnológico",
-    label: "Aliados tecnológicos",
-    description:
-      "Plataformas y equipos que desarrollan soluciones de IA para la logística.",
-    icon: Cpu,
-  },
+/**
+ * Muro de logos reales de las organizaciones participantes.
+ * Los archivos sin marca identificable usan un nombre genérico solo para `alt`.
+ */
+export const PARTICIPANT_LOGOS: ParticipantLogo[] = [
+  { id: "ai-jump", name: "AI Jump", file: "AI+Jump+Cube+Color+Logo-640w.webp" },
+  { id: "alizanza-tea", name: "Participante", file: "alizanza tea.png" },
+  { id: "datup", name: "Datup", file: "datup_logo.jpg" },
+  { id: "falabella", name: "Falabella", file: "Falabella.svg.webp" },
+  { id: "harinera-pardo", name: "Harinera Pardo", file: "harinera-pardo.png" },
+  { id: "participante-1", name: "Participante", file: "images (1).jpg" },
+  { id: "participante-2", name: "Participante", file: "images (1).png" },
+  { id: "participante-3", name: "Participante", file: "images (2).png" },
+  { id: "participante-4", name: "Participante", file: "images (3).png" },
+  { id: "participante-5", name: "Participante", file: "images (4).png" },
+  { id: "participante-6", name: "Participante", file: "images.jpg" },
+  { id: "participante-7", name: "Participante", file: "images.png" },
+  { id: "participante-8", name: "Participante", file: "iw.png" },
+  { id: "grupo-bimbo", name: "Grupo Bimbo", file: "Logo_Grupo_BIMBO.svg.webp" },
+  { id: "participante-9", name: "Participante", file: "logo_vertical_ur_rojo.png" },
+  { id: "datecsa", name: "Datecsa", file: "Logo-Datecsa-1500x460.webp" },
+  { id: "participante-10", name: "Participante", file: "logo-footer.png" },
+  { id: "participante-11", name: "Participante", file: "logo-name-color.png" },
+  { id: "nestle", name: "Nestlé", file: "Nestle.jpg" },
+  { id: "simoniz", name: "Simoniz", file: "simoniz.svg" },
+  { id: "tecnoquimicas", name: "Tecnoquímicas", file: "tecnoquimicas.jpg" },
+  { id: "tiendas-d1", name: "Tiendas D1", file: "Tiendas_D1_logo.svg.webp" },
+  { id: "participante-12", name: "Participante", file: "unnamed.jpg" },
 ];
 
-export const PARTICIPANTS: Participant[] = [
-  {
-    id: "logistica-andina",
-    name: "Logística Andina S.A.",
-    type: "Empresa / Operador logístico",
-    role: "Miembro fundador",
-    representative: "Camila Restrepo",
-  },
-  {
-    id: "puerto-seco-occidente",
-    name: "Puerto Seco Occidente",
-    type: "Empresa / Operador logístico",
-    role: "Miembro activo",
-    representative: "Andrés Villalba",
-  },
-  {
-    id: "transportes-del-norte",
-    name: "Transportes del Norte",
-    type: "Transportista / Proveedor",
-    role: "Miembro activo",
-    representative: "Julián Ospina",
-  },
-  {
-    id: "red-transportadores",
-    name: "Red de Transportadores Centro",
-    type: "Transportista / Proveedor",
-    role: "Líder de piloto",
-    representative: "Marta Quintero",
-  },
-  {
-    id: "camara-comercio",
-    name: "Cámara de Comercio Regional",
-    type: "Institución, gremio o academia",
-    role: "Miembro fundador",
-    representative: "Diego Salcedo",
-  },
-  {
-    id: "universidad-politecnica",
-    name: "Universidad Politécnica del Centro",
-    type: "Institución, gremio o academia",
-    role: "Socio académico",
-    representative: "Lucía Ferrer",
-  },
-  {
-    id: "nodo-ia-logistica",
-    name: "Nodo IA Logística",
-    type: "Proveedor tecnológico",
-    role: "Aliado tecnológico",
-    representative: "Santiago Rueda",
-  },
-  {
-    id: "dataflow-analytics",
-    name: "Dataflow Analytics",
-    type: "Proveedor tecnológico",
-    role: "Observador técnico",
-    representative: "Valentina Cruz",
-  },
-];
+/** URL del logo respetando la ruta base de despliegue y codificando el archivo. */
+export const participantLogoUrl = (file: string) =>
+  `${import.meta.env.BASE_URL}participantes/${encodeURIComponent(file)}`;
 
 export type FileKind = "pdf" | "sheet" | "doc" | "image";
 

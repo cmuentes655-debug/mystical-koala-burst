@@ -91,12 +91,17 @@ export default {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        marquee: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "soft-pulse": "soft-pulse 6s ease-in-out infinite",
         "slow-drift": "slow-drift 9s ease-in-out infinite",
+        marquee: "marquee 40s linear infinite",
       },
     },
   },
