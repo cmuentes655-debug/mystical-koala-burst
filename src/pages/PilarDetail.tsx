@@ -6,10 +6,6 @@ import {
   ChevronRight,
   Compass,
   Download,
-  FileImage,
-  FileSpreadsheet,
-  FileText,
-  FileType2,
   FolderDown,
   ListChecks,
   ShieldAlert,
@@ -20,18 +16,7 @@ import { ParticlesBackground } from "@/components/site/ParticlesBackground";
 import { TopBar } from "@/components/site/TopBar";
 import { ActionButton } from "@/components/site/ActionButton";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import {
-  PILLAR_LINKS,
-  getPillarDetail,
-  type FileKind,
-} from "@/lib/committee";
-
-const FILE_ICONS: Record<FileKind, LucideIcon> = {
-  pdf: FileText,
-  sheet: FileSpreadsheet,
-  doc: FileType2,
-  image: FileImage,
-};
+import { FILE_KIND_META, PILLAR_LINKS, getPillarDetail } from "@/lib/committee";
 
 const container: Variants = {
   hidden: {},
@@ -192,7 +177,7 @@ const PilarDetail = () => {
                 <SectionHeading icon={FolderDown} label="Recursos descargables" />
                 <ul className="flex flex-col gap-1.5">
                   {detail.resources.map((file) => {
-                    const FileIcon = FILE_ICONS[file.kind];
+                    const FileIcon = FILE_KIND_META[file.kind].icon;
                     return (
                       <li
                         key={file.id}

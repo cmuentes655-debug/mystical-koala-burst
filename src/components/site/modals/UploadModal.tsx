@@ -1,14 +1,6 @@
 import * as React from "react";
-import {
-  CheckCircle2,
-  FileImage,
-  FileSpreadsheet,
-  FileText,
-  FileType2,
-  UploadCloud,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import { SAMPLE_FILES, type FileKind } from "@/lib/committee";
+import { CheckCircle2, UploadCloud } from "lucide-react";
+import { FILE_KIND_META, SAMPLE_FILES } from "@/lib/committee";
 import { cn } from "@/lib/utils";
 import { ActionButton } from "../ActionButton";
 import { GlassDialog } from "./GlassDialog";
@@ -17,13 +9,6 @@ interface UploadModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
-const FILE_ICONS: Record<FileKind, LucideIcon> = {
-  pdf: FileText,
-  sheet: FileSpreadsheet,
-  doc: FileType2,
-  image: FileImage,
-};
 
 export function UploadModal({ open, onOpenChange }: UploadModalProps) {
   const [dragging, setDragging] = React.useState(false);
@@ -78,7 +63,7 @@ export function UploadModal({ open, onOpenChange }: UploadModalProps) {
 
         <ul className="flex flex-col gap-1.5">
           {SAMPLE_FILES.map((file) => {
-            const Icon = FILE_ICONS[file.kind];
+            const Icon = FILE_KIND_META[file.kind].icon;
             return (
               <li
                 key={file.id}

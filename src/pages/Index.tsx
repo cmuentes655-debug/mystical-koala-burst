@@ -12,12 +12,13 @@ import { PilaresPanel } from "@/components/site/panels/PilaresPanel";
 import { JoinModal } from "@/components/site/modals/JoinModal";
 import { LoginModal } from "@/components/site/modals/LoginModal";
 import { UploadModal } from "@/components/site/modals/UploadModal";
+import { SearchModal } from "@/components/site/modals/SearchModal";
 import { InscripcionEventoModal } from "@/components/site/modals/InscripcionEventoModal";
 import { TABS, type TabId, type CommitteeEvent } from "@/lib/committee";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
-type ModalId = "join" | "login" | "upload" | "inscribirse" | null;
+type ModalId = "join" | "login" | "upload" | "search" | "inscribirse" | null;
 
 const panelVariants: Variants = {
   enter: (dir: number) => ({ opacity: 0, x: dir * 56 }),
@@ -100,7 +101,12 @@ const Index = () => {
       case "formulario":
         return <FormularioPanel />;
       case "pilares":
-        return <PilaresPanel onUpload={() => setActiveModal("upload")} />;
+        return (
+          <PilaresPanel
+            onUpload={() => setActiveModal("upload")}
+            onSearch={() => setActiveModal("search")}
+          />
+        );
     }
   };
 
@@ -205,6 +211,10 @@ const Index = () => {
       <UploadModal
         open={activeModal === "upload"}
         onOpenChange={(open) => setActiveModal(open ? "upload" : null)}
+      />
+      <SearchModal
+        open={activeModal === "search"}
+        onOpenChange={(open) => setActiveModal(open ? "search" : null)}
       />
       <InscripcionEventoModal
         open={activeModal === "inscribirse"}

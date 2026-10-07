@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import { ChevronRight, UploadCloud } from "lucide-react";
+import { ChevronRight, FileSearch, UploadCloud } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FUNCTIONS, GOVERNANCE_PILLAR } from "@/lib/committee";
 import { ActionButton } from "../ActionButton";
 
 interface PilaresPanelProps {
   onUpload: () => void;
+  onSearch: () => void;
 }
 
-export function PilaresPanel({ onUpload }: PilaresPanelProps) {
+export function PilaresPanel({ onUpload, onSearch }: PilaresPanelProps) {
   const navigate = useNavigate();
 
   return (
@@ -80,10 +81,14 @@ export function PilaresPanel({ onUpload }: PilaresPanelProps) {
         </motion.button>
       </div>
 
-      <div className="flex justify-center">
-        <ActionButton variant="outline" onClick={onUpload}>
+      <div className="flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+        <ActionButton variant="outline" onClick={onUpload} className="w-full sm:w-auto">
           <UploadCloud className="h-4 w-4" />
           Cargar archivos
+        </ActionButton>
+        <ActionButton variant="outline" onClick={onSearch} className="w-full sm:w-auto">
+          <FileSearch className="h-4 w-4" />
+          Buscar archivos
         </ActionButton>
       </div>
     </div>

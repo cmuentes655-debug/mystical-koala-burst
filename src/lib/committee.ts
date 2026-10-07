@@ -1,6 +1,10 @@
 import {
   Blocks,
   Database,
+  FileImage,
+  FileSpreadsheet,
+  FileText,
+  FileType2,
   Flag,
   Handshake,
   HeartHandshake,
@@ -273,6 +277,82 @@ export const SAMPLE_FILES: SampleFile[] = [
   { id: "f3", name: "Protocolo_Pilotos_v3.docx", size: "1.1 MB", kind: "doc" },
   { id: "f4", name: "Mapa_Redes_Valor.png", size: "3.8 MB", kind: "image" },
 ];
+
+/** Etiqueta legible e ícono de cada tipo de archivo: fuente única de verdad. */
+export const FILE_KIND_META: Record<
+  FileKind,
+  { label: string; icon: LucideIcon }
+> = {
+  pdf: { label: "PDF", icon: FileText },
+  sheet: { label: "Excel", icon: FileSpreadsheet },
+  doc: { label: "Word", icon: FileType2 },
+  image: { label: "Imagen", icon: FileImage },
+};
+
+export interface SearchableFile extends SampleFile {
+  /** URL real de vista previa (Azure Blob); ausente en los datos de ejemplo. */
+  previewUrl?: string;
+  /** Fecha ISO (YYYY-MM-DD) de la última actualización. */
+  updatedAt?: string;
+}
+
+/** Archivos de ejemplo del buscador (reemplazar al conectar Azure Blob). */
+export const SEARCHABLE_FILES: SearchableFile[] = [
+  ...SAMPLE_FILES,
+  {
+    id: "s5",
+    name: "Guia_Logistica_Colaborativa.pdf",
+    size: "1.6 MB",
+    kind: "pdf",
+    updatedAt: "2026-09-18",
+  },
+  {
+    id: "s6",
+    name: "Matriz_Riesgos_IA.xlsx",
+    size: "640 KB",
+    kind: "sheet",
+    updatedAt: "2026-08-30",
+  },
+  {
+    id: "s7",
+    name: "Acta_Plenaria_Septiembre.docx",
+    size: "320 KB",
+    kind: "doc",
+    updatedAt: "2026-09-05",
+  },
+  {
+    id: "s8",
+    name: "Diagrama_Ecosistema_IA.jpg",
+    size: "2.1 MB",
+    kind: "image",
+    updatedAt: "2026-07-22",
+  },
+];
+
+/** Normaliza para comparar sin distinguir mayúsculas ni acentos. */
+const normalizeText = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+
+/**
+ * Busca en los archivos de ejemplo por nombre (parcial, sin acentos ni
+ * mayúsculas) y por los tipos activos. Pura: único punto a cambiar cuando la
+ * fuente de datos pase a ser Azure Blob (misma firma, sin tocar la UI).
+ */
+export function searchFiles(
+  query: string,
+  kinds: FileKind[] = [],
+): SearchableFile[] {
+  const term = normalizeText(query.trim());
+  return SEARCHABLE_FILES.filter((file) => {
+    const matchesName = term === "" || normalizeText(file.name).includes(term);
+    const matchesKind = kinds.length === 0 || kinds.includes(file.kind);
+    return matchesName && matchesKind;
+  });
+}
+
 
 export interface PillarResource {
   id: string;
