@@ -27,7 +27,7 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
     >
       <motion.span
         variants={item}
-        className="inline-flex items-center gap-2 rounded-full border border-komite-glow/25 bg-komite-turquoise/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-komite-glow"
+        className="mt-4 inline-flex items-center gap-2 rounded-full border border-komite-glow/25 bg-komite-turquoise/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-komite-glow sm:mt-7"
       >
         <span className="relative flex h-1.5 w-1.5">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-komite-accent opacity-75" />
