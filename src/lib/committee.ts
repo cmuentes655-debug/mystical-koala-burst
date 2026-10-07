@@ -1,12 +1,10 @@
 import {
-  BookOpen,
+  Blocks,
   Building2,
   Cpu,
-  FlaskConical,
-  Gauge,
+  Database,
+  HeartHandshake,
   Landmark,
-  Lightbulb,
-  Network,
   Truck,
   type LucideIcon,
 } from "lucide-react";
@@ -39,40 +37,33 @@ export interface FunctionItem {
 
 export const FUNCTIONS: FunctionItem[] = [
   {
-    id: "articular",
-    title: "Articular actores",
+    id: "datos",
+    title: "Datos e interoperabilidad",
     description:
-      "Conectamos empresas, instituciones y gremios de la cadena logística.",
-    icon: Network,
+      "Establecer las condiciones para compartir datos de forma confiable, interoperable y segura.",
+    icon: Database,
   },
   {
-    id: "guias",
-    title: "Guías, manuales y protocolos",
+    id: "ecosistema",
+    title: "Ecosistema tecnológico colaborativo",
     description:
-      "Desarrollamos lineamientos prácticos para adoptar IA de forma responsable.",
-    icon: BookOpen,
+      "Herramientas, plataformas y agentes de IA interoperables entre empresas, con LOGYCA como orquestador neutral del ecosistema.",
+    icon: Blocks,
   },
   {
-    id: "practicas",
-    title: "Buenas prácticas",
+    id: "cultura",
+    title: "Cultura de la colaboración",
     description:
-      "Compartimos información, casos y aprendizajes entre miembros.",
-    icon: Lightbulb,
-  },
-  {
-    id: "pilotos",
-    title: "Pilotos y validación",
-    description:
-      "Implementamos pilotos y validamos herramientas de IA en operaciones reales.",
-    icon: FlaskConical,
-  },
-  {
-    id: "indicadores",
-    title: "Indicadores comunes",
-    description: "Monitoreamos los avances con métricas compartidas.",
-    icon: Gauge,
+      "Desarrollar las capacidades y la cultura de colaboración para una adopción sostenible.",
+    icon: HeartHandshake,
   },
 ];
+
+/** Tarjeta destacada de ancho completo, con estilo propio (sin icono ni descripción). */
+export const GOVERNANCE_PILLAR = {
+  id: "gobernanza",
+  title: "Gobernanza, Riesgo y Ética (IA responsable)",
+};
 
 export interface Indicator {
   id: string;
