@@ -1,6 +1,4 @@
 import { motion, type Variants } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { ActionButton } from "../ActionButton";
 import { EstrategiaPoints } from "../EstrategiaPoints";
 
 const container: Variants = {
@@ -13,11 +11,7 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
-interface InicioPanelProps {
-  onJoin: () => void;
-}
-
-export function InicioPanel({ onJoin }: InicioPanelProps) {
+export function InicioPanel() {
   return (
     <motion.div
       variants={container}
@@ -51,17 +45,6 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
         Impulsamos la inteligencia artificial para que la logística colabore
         mejor, de extremo a extremo.
       </motion.p>
-
-      <motion.div variants={item}>
-        <ActionButton
-          onClick={onJoin}
-          className="px-6 py-3 text-[15px]"
-          aria-label="Unirse"
-        >
-          Unirse
-          <ArrowRight className="h-4 w-4" />
-        </ActionButton>
-      </motion.div>
 
       <EstrategiaPoints />
     </motion.div>

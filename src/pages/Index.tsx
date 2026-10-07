@@ -86,7 +86,7 @@ const Index = () => {
   const renderPanel = () => {
     switch (activeTab) {
       case "inicio":
-        return <InicioPanel onJoin={() => setActiveModal("join")} />;
+        return <InicioPanel />;
       case "participantes":
         return <ParticipantesPanel />;
       case "fechas":
