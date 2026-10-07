@@ -192,10 +192,10 @@ export const PARTICIPANT_LOGOS: ParticipantLogo[] = [
   { id: "ai-jump", name: "AI Jump", file: "jump cube.webp" },
   { id: "alianza-tea", name: "Alianza Tea", file: "alizanza tea.png" },
   { id: "ccl", name: "CCL", file: "ccl.png", nudgeY: NUDGE_Y },
-  { id: "controlt", name: "ControlT", file: "controlt.png", nudgeY: 10, scale: SHRINK },
+  { id: "controlt", name: "ControlT", file: "controlt.png", nudgeY: 14, scale: SHRINK },
   { id: "corona", name: "Corona", file: "corona.jpg", nudgeY: NUDGE_Y },
   { id: "datecsa", name: "Datecsa", file: "datecsa.webp" },
-  { id: "datup", name: "Datup", file: "datup_logo.jpg", nudgeY: 10, scale: SHRINK },
+  { id: "datup", name: "Datup", file: "datup_logo.jpg", nudgeY: 14, scale: SHRINK },
   { id: "enalia", name: "Enalia", file: "enalia.png" },
   { id: "falabella", name: "Falabella", file: "Falabella.svg.webp" },
   { id: "grupo-bimbo", name: "Grupo Bimbo", file: "bimbo.webp" },
@@ -206,11 +206,11 @@ export const PARTICIPANT_LOGOS: ParticipantLogo[] = [
   { id: "kenvue", name: "Kenvue", file: "kenvue.png", nudgeY: 3 },
   { id: "makro", name: "Makro", file: "makro.png" },
   { id: "nestle", name: "Nestlé", file: "Nestle.jpg", nudgeY: NUDGE_Y },
-  { id: "pcs", name: "PCS", file: "pcs.jpg", nudgeY: 10, scale: SHRINK },
-  { id: "simoniz", name: "Simoniz", file: "simoniz.svg", nudgeY: 10, scale: SHRINK },
+  { id: "pcs", name: "PCS", file: "pcs.jpg", nudgeY: 14, scale: SHRINK },
+  { id: "simoniz", name: "Simoniz", file: "simoniz.svg", nudgeY: 14, scale: SHRINK },
   { id: "tecnoquimicas", name: "Tecnoquímicas", file: "tecnoquimicas.jpg" },
-  { id: "tiendas-d1", name: "Tiendas D1", file: "D1.webp", nudgeY: 10, scale: SHRINK },
-  { id: "universidad-rosario", name: "Universidad del Rosario", file: "universidad_rosario.png", nudgeY: NUDGE_Y, scale: SHRINK },
+  { id: "tiendas-d1", name: "Tiendas D1", file: "D1.webp", nudgeY: 14, scale: SHRINK },
+  { id: "universidad-rosario", name: "Universidad del Rosario", file: "universidad_rosario.png", nudgeY: 10, scale: SHRINK },
 ];
 
 /** URL del logo respetando la ruta base de despliegue y codificando el archivo. */
