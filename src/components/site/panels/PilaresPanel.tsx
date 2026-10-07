@@ -9,7 +9,7 @@ interface PilaresPanelProps {
 
 export function PilaresPanel({ onUpload }: PilaresPanelProps) {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-3">
       <header className="flex flex-col items-center gap-1 text-center">
         <h2 className="font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
           Los pilares del comité
