@@ -29,7 +29,7 @@ export function ProximasFechasPanel({ onRegister }: ProximasFechasPanelProps) {
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-5">
       <header className="flex flex-col items-center gap-1 text-center">
         <h2 className="font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
-          Agenda del comité
+          Agenda de encuentros
         </h2>
       </header>
 
