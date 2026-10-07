@@ -11,6 +11,11 @@ interface ParticipanteLogoTileProps {
    * contenido viene descentrado dentro de su propio archivo.
    */
   nudgeY?: number;
+  /**
+   * Escala del logo dentro de la tarjeta (p. ej. 0.8 = 80 %). Reduce los
+   * archivos cuya imagen es muy grande para que dejen aire y queden centrados.
+   */
+  scale?: number;
   className?: string;
 }
 
@@ -23,8 +28,14 @@ export function ParticipanteLogoTile({
   file,
   name,
   nudgeY = 0,
+  scale = 1,
   className,
 }: ParticipanteLogoTileProps) {
+  const transforms = [
+    nudgeY ? `translateY(-${nudgeY}px)` : null,
+    scale !== 1 ? `scale(${scale})` : null,
+  ].filter(Boolean);
+
   return (
     <div
       role="img"
@@ -44,7 +55,7 @@ export function ParticipanteLogoTile({
         loading="lazy"
         decoding="async"
         draggable={false}
-        style={nudgeY ? { transform: `translateY(-${nudgeY}px)` } : undefined}
+        style={transforms.length ? { transform: transforms.join(" ") } : undefined}
         className="max-h-full w-full object-contain"
       />
     </div>

@@ -34,6 +34,7 @@ export function ParticipantesMarquee() {
                 file={logo.file}
                 name={logo.name}
                 nudgeY={logo.nudgeY}
+                scale={logo.scale}
               />
             </li>
           );
