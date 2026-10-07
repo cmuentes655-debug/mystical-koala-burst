@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { ParticlesBackground } from "@/components/site/ParticlesBackground";
 import { TopBar } from "@/components/site/TopBar";
@@ -26,7 +27,13 @@ const panelVariants: Variants = {
 
 const Index = () => {
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = React.useState<TabId>("inicio");
+  const location = useLocation();
+  // Restaura la pestaña desde `?tab=` (validado contra TABS) para que el
+  // regreso desde una página de detalle no pierda el contexto.
+  const [activeTab, setActiveTab] = React.useState<TabId>(() => {
+    const tab = new URLSearchParams(location.search).get("tab");
+    return TABS.some((item) => item.id === tab) ? (tab as TabId) : "inicio";
+  });
   const [direction, setDirection] = React.useState(1);
   const [activeModal, setActiveModal] = React.useState<ModalId>(null);
   const [registerEvent, setRegisterEvent] = React.useState<CommitteeEvent | null>(
