@@ -29,7 +29,7 @@ export function PilaresPanel({ onUpload }: PilaresPanelProps) {
                 transition: { duration: 0.45, delay: 0.05 * index },
               }}
               whileHover={{ y: -3 }}
-              className="glass col-span-1 flex flex-col gap-3 rounded-2xl p-4"
+              className="glass col-span-1 flex flex-col gap-2.5 rounded-2xl px-4 pt-4 pb-3"
             >
               <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-komite-glow/30 bg-komite-turquoise/15 text-komite-glow">
                 <Icon className="h-4 w-4" />
