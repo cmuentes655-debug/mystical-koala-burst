@@ -65,7 +65,7 @@ export function FormularioPanel() {
           Escríbenos
         </h2>
         <p className="max-w-md text-xs leading-snug text-komite-soft/80 sm:text-[13px]">
-          Consultas, propuestas de colaboración o interés en sumarte al comité.
+          Consultas, propuestas de colaboración o interés en sumarte a la red.
         </p>
       </header>
 
@@ -157,7 +157,7 @@ export function FormularioPanel() {
                 id="contacto-mensaje"
                 value={values.mensaje}
                 onChange={(e) => setField("mensaje")(e.target.value)}
-                placeholder="Cuéntanos qué necesitas o qué te gustaría explorar con el comité."
+                placeholder="Cuéntanos qué necesitas o qué te gustaría explorar con la red."
                 aria-invalid={Boolean(errors.mensaje)}
                 className={cn(
                   inputClass,

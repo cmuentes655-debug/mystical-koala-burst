@@ -69,7 +69,7 @@ export function JoinModal({ open, onOpenChange }: JoinModalProps) {
     <GlassDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="Unirse al comité"
+      title="Unirse"
       description="Cuéntanos quién eres. Revisaremos tu solicitud y te contactaremos para sumarte a la red."
     >
       {sent ? (

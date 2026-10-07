@@ -13,7 +13,7 @@ export function TabNav({ activeTab, onChange, isMobile }: TabNavProps) {
     return (
       <div
         role="tablist"
-        aria-label="Secciones del comité"
+        aria-label="Secciones de la red"
         className="flex items-center justify-center gap-1.5"
       >
         {TABS.map((tab) => {
@@ -53,7 +53,7 @@ export function TabNav({ activeTab, onChange, isMobile }: TabNavProps) {
   return (
     <div
       role="tablist"
-      aria-label="Secciones del comité"
+      aria-label="Secciones de la red"
       className="relative inline-flex max-w-full flex-nowrap items-center gap-1 rounded-full border border-komite-glow/15 bg-komite-deep/30 p-1 backdrop-blur-md"
     >
       {TABS.map((tab) => {

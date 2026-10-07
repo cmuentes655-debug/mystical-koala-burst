@@ -45,7 +45,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
       open={open}
       onOpenChange={onOpenChange}
       title="Iniciar sesión"
-      description="Accede al espacio de trabajo del comité. Demo visual, sin autenticación real."
+      description="Accede al espacio de trabajo de la red. Demo visual, sin autenticación real."
     >
       {sent ? (
         <div className="flex flex-col items-start gap-4">

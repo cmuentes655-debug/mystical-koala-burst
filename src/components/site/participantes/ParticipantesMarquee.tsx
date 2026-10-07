@@ -19,7 +19,7 @@ export function ParticipantesMarquee() {
       style={{ WebkitMaskImage: EDGE_MASK, maskImage: EDGE_MASK }}
     >
       <ul
-        aria-label="Organizaciones participantes del comité"
+        aria-label="Organizaciones participantes de la red"
         className="flex w-max animate-marquee items-center group-hover/marquee:[animation-play-state:paused] group-focus-within/marquee:[animation-play-state:paused] motion-reduce:animate-none"
       >
         {loop.map((logo, index) => {

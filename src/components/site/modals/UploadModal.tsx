@@ -41,7 +41,7 @@ export function UploadModal({ open, onOpenChange }: UploadModalProps) {
       open={open}
       onOpenChange={onOpenChange}
       title="Cargar archivos"
-      description="Comparte documentos del comité: guías, indicadores y casos de pilotos."
+      description="Comparte documentos de la red: guías, indicadores y casos de pilotos."
     >
       <div className="flex flex-col gap-4">
         <div

@@ -1,6 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { ActionButton } from "../ActionButton";
+import { EstrategiaPoints } from "../EstrategiaPoints";
 
 const container: Variants = {
   hidden: {},
@@ -55,12 +56,14 @@ export function InicioPanel({ onJoin }: InicioPanelProps) {
         <ActionButton
           onClick={onJoin}
           className="px-6 py-3 text-[15px]"
-          aria-label="Unirse al comité"
+          aria-label="Unirse"
         >
-          Unirse al comité
+          Unirse
           <ArrowRight className="h-4 w-4" />
         </ActionButton>
       </motion.div>
+
+      <EstrategiaPoints />
     </motion.div>
   );
 }

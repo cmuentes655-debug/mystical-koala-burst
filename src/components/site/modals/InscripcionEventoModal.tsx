@@ -74,7 +74,7 @@ export function InscripcionEventoModal({
       open={open}
       onOpenChange={onOpenChange}
       title="Inscripción"
-      description="Reserva tu cupo en este encuentro del comité."
+      description="Reserva tu cupo en este encuentro de la red."
     >
       <div className="flex flex-col gap-4">
         {event ? (

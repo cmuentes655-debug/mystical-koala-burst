@@ -1,8 +1,11 @@
 import {
   Blocks,
   Database,
+  Flag,
+  Handshake,
   HeartHandshake,
   ShieldCheck,
+  Target,
   type LucideIcon,
 } from "lucide-react";
 
@@ -61,6 +64,38 @@ export const GOVERNANCE_PILLAR = {
   id: "gobernanza",
   title: "Gobernanza, Riesgo y Ética (IA responsable)",
 };
+
+export interface StrategyPoint {
+  id: string;
+  label: string;
+  text: string;
+  icon: LucideIcon;
+  /** Resalta la fila con el acento de marca (un único punto de énfasis). */
+  emphasized?: boolean;
+}
+
+/** Bloques de contexto estratégico que acompañan al CTA en Inicio. */
+export const STRATEGY_POINTS: StrategyPoint[] = [
+  {
+    id: "objetivo",
+    label: "Objetivo",
+    text: "Liderar la adopción de IA para potenciar la colaboración en las redes de valor.",
+    icon: Target,
+  },
+  {
+    id: "rol-logyca",
+    label: "Rol LOGYCA",
+    text: "Articulador neutral y de confianza; facilita estándares, protocolos, gobernanza, capacidades y experimentación.",
+    icon: Handshake,
+  },
+  {
+    id: "meta-2026",
+    label: "Meta 2026",
+    text: "Consolidar un plan estratégico de la red para presentar al Consejo Directivo en noviembre.",
+    icon: Flag,
+    emphasized: true,
+  },
+];
 
 export interface Indicator {
   id: string;

@@ -41,7 +41,7 @@ export function TopBar({ onLogin, onJoin }: TopBarProps) {
           <ActionButton
             onClick={onJoin}
             className="px-3.5 py-2 text-[13px] sm:px-5"
-            aria-label="Unirse al comité"
+            aria-label="Unirse"
           >
             <UserPlus className="h-4 w-4" />
             <span>Unirse</span>
