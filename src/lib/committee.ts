@@ -27,7 +27,7 @@ export interface TabDef {
 
 export const TABS: TabDef[] = [
   { id: "inicio", label: "Inicio" },
-  { id: "participantes", label: "Participantes" },
+  { id: "participantes", label: "Calendario" },
   { id: "fechas", label: "Próximas fechas" },
   { id: "pilares", label: "Pilares" },
 ];
