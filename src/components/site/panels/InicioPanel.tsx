@@ -19,17 +19,6 @@ export function InicioPanel() {
       animate="show"
       className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 text-center"
     >
-      <motion.span
-        variants={item}
-        className="mt-4 inline-flex items-center gap-2 rounded-full border border-komite-glow/25 bg-komite-turquoise/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-komite-glow sm:mt-7"
-      >
-        <span className="relative flex h-1.5 w-1.5">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-komite-accent opacity-75" />
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-komite-accent" />
-        </span>
-        Convocatoria abierta
-      </motion.span>
-
       <motion.h1
         variants={item}
         className="text-balance font-display text-[2rem] font-semibold leading-[1.08] tracking-tight text-komite-ink sm:text-[2.75rem] lg:text-[3.5rem]"
@@ -38,13 +27,24 @@ export function InicioPanel() {
         <span className="text-komite-glow">en las Redes de Valor</span>
       </motion.h1>
 
-      <motion.p
-        variants={item}
-        className="max-w-xl text-base leading-relaxed text-komite-soft sm:text-lg"
-      >
-        Impulsamos la inteligencia artificial para que la logística colabore
-        mejor, de extremo a extremo.
-      </motion.p>
+      <motion.div variants={item} className="flex max-w-2xl flex-col gap-3 sm:gap-4">
+        <p className="font-display text-lg font-medium leading-snug text-komite-glow sm:text-xl">
+          IA y colaboración para avanzar juntos
+        </p>
+        <p className="text-base leading-relaxed text-komite-soft sm:text-lg">
+          Impulsar la adopción de inteligencia artificial en las redes de valor
+          requiere conectar actores, compartir conocimiento y experimentar
+          juntos. Desde LOGYCA facilitamos ese trabajo como un articulador
+          neutral y de confianza.
+        </p>
+        <p className="text-base leading-relaxed text-komite-soft sm:text-lg">
+          Aquí encontrarás guías, herramientas y buenas prácticas para explorar
+          la IA en la planeación colaborativa de la demanda, la coordinación
+          logística y la gestión de incidencias. Un espacio para desarrollar
+          capacidades, impulsar pilotos y compartir avances que potencien la
+          colaboración en las redes de valor.
+        </p>
+      </motion.div>
 
       <EstrategiaPoints />
     </motion.div>
