@@ -1,5 +1,4 @@
 import { motion, type Variants } from "framer-motion";
-import { EstrategiaPoints } from "../EstrategiaPoints";
 
 const container: Variants = {
   hidden: {},
@@ -17,7 +16,7 @@ export function InicioPanel() {
       variants={container}
       initial="hidden"
       animate="show"
-      className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 text-center"
+      className="mx-auto flex w-full max-w-3xl flex-col items-center gap-6 pt-6 text-center sm:pt-10"
     >
       <motion.h1
         variants={item}
@@ -45,8 +44,6 @@ export function InicioPanel() {
           colaboración en las redes de valor.
         </p>
       </motion.div>
-
-      <EstrategiaPoints />
     </motion.div>
   );
 }
