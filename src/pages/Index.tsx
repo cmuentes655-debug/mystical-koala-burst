@@ -193,8 +193,11 @@ const Index = () => {
                 </button>
               ))}
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-komite-soft/45">
-              Usa ← → o desliza
+            <span
+              aria-hidden="true"
+              className="font-mono text-xs tracking-[0.18em] text-komite-soft/45"
+            >
+              ← →
             </span>
           </div>
         </div>
