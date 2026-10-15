@@ -5,7 +5,9 @@ import {
   FileSpreadsheet,
   FileText,
   FileType2,
+  Globe,
   HeartHandshake,
+  Lock,
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
@@ -224,24 +226,52 @@ export const participantLogoUrl = (file: string) =>
 
 export type FileKind = "pdf" | "sheet" | "doc" | "image";
 
+/**
+ * Nivel de acceso de un documento:
+ * - `publico`: abierto a cualquiera (vista previa y descarga).
+ * - `miembros`: requiere autenticarse en el portal externo de miembros.
+ */
+export type AccessLevel = "publico" | "miembros";
+
+/**
+ * Portal externo donde se autentican los miembros del comité. Todo documento
+ * con acceso `miembros` redirige aquí en lugar de abrirse o descargarse.
+ *
+ * TODO: cuando el portal soporte el regreso, enviar de vuelta al documento
+ * solicitado tras el login (p. ej. un parámetro `?redirect=` respetado por
+ * `miembros.logyca.org`).
+ */
+export const MEMBER_AUTH_URL = "https://miembros.logyca.org/user/login";
+
+/** Etiqueta legible e ícono de cada nivel de acceso: fuente única de verdad. */
+export const ACCESS_LEVEL_META: Record<
+  AccessLevel,
+  { label: string; icon: LucideIcon }
+> = {
+  publico: { label: "Público", icon: Globe },
+  miembros: { label: "Miembros", icon: Lock },
+};
+
+/** Orden de exhibición de los filtros de acceso. */
+export const ACCESS_LEVEL_ORDER: AccessLevel[] = ["publico", "miembros"];
+
 export interface SampleFile {
   id: string;
   name: string;
   size: string;
   kind: FileKind;
+  /** Pilar al que pertenece (`datos | ecosistema | cultura | gobernanza`). */
+  pillarId: string;
+  /** Quién puede verlo: abierto al público o solo miembros autenticados. */
+  accessLevel: AccessLevel;
+  /** Cómo se incorporó el documento: archivo subido o enlace a una URL. */
+  source?: "archivo" | "enlace";
+  /**
+   * URL del documento. En los públicos apuntará al contenedor de Azure Blob;
+   * en los de miembros queda pendiente de definir el almacenamiento.
+   */
+  url?: string;
 }
-
-export const SAMPLE_FILES: SampleFile[] = [
-  {
-    id: "f1",
-    name: "Practicas_IA_Logistica_2025.pdf",
-    size: "2.4 MB",
-    kind: "pdf",
-  },
-  { id: "f2", name: "Indicadores_Comite_Q3.xlsx", size: "684 KB", kind: "sheet" },
-  { id: "f3", name: "Protocolo_Pilotos_v3.docx", size: "1.1 MB", kind: "doc" },
-  { id: "f4", name: "Mapa_Redes_Valor.png", size: "3.8 MB", kind: "image" },
-];
 
 /** Etiqueta legible e ícono de cada tipo de archivo: fuente única de verdad. */
 export const FILE_KIND_META: Record<
@@ -254,6 +284,17 @@ export const FILE_KIND_META: Record<
   image: { label: "Imagen", icon: FileImage },
 };
 
+/** Deduce el tipo de documento a partir de su nombre o de una URL. */
+export function inferFileKind(fileName: string): FileKind {
+  const extension = fileName.split(/[?#]/)[0].split(".").pop()?.toLowerCase() ?? "";
+  if (["xlsx", "xls", "csv"].includes(extension)) return "sheet";
+  if (["docx", "doc", "txt", "rtf"].includes(extension)) return "doc";
+  if (["png", "jpg", "jpeg", "webp", "gif", "svg"].includes(extension)) {
+    return "image";
+  }
+  return "pdf";
+}
+
 export interface SearchableFile extends SampleFile {
   /** URL real de vista previa (Azure Blob); ausente en los datos de ejemplo. */
   previewUrl?: string;
@@ -261,38 +302,216 @@ export interface SearchableFile extends SampleFile {
   updatedAt?: string;
 }
 
-/** Archivos de ejemplo del buscador (reemplazar al conectar Azure Blob). */
-export const SEARCHABLE_FILES: SearchableFile[] = [
-  ...SAMPLE_FILES,
+/**
+ * Catálogo único de documentos de la red: de él se derivan tanto los recursos
+ * de cada pilar (`getPillarResources`) como los resultados del buscador
+ * (`searchFiles`), para que ambas vistas nunca se desalineen.
+ *
+ * TODO: reemplazar por el inventario real —los públicos desde el contenedor de
+ * Azure Blob y los de miembros desde el origen que aún está por definir—.
+ */
+export const DOCUMENT_CATALOG: SearchableFile[] = [
+  // Pilar 01 · Datos
   {
-    id: "s5",
-    name: "Guia_Logistica_Colaborativa.pdf",
-    size: "1.6 MB",
+    id: "dr1",
+    name: "Marco_Interoperabilidad_Datos.pdf",
+    size: "1.8 MB",
     kind: "pdf",
-    updatedAt: "2026-09-18",
+    pillarId: "datos",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-09-12",
   },
   {
-    id: "s6",
-    name: "Matriz_Riesgos_IA.xlsx",
-    size: "640 KB",
+    id: "dr2",
+    name: "Catalogo_APIs_Compartidas.xlsx",
+    size: "512 KB",
     kind: "sheet",
-    updatedAt: "2026-08-30",
+    pillarId: "datos",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-08-21",
   },
   {
-    id: "s7",
-    name: "Acta_Plenaria_Septiembre.docx",
-    size: "320 KB",
+    id: "dr3",
+    name: "Plantilla_Acuerdo_Uso_Datos.docx",
+    size: "420 KB",
     kind: "doc",
-    updatedAt: "2026-09-05",
+    pillarId: "datos",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-07-30",
+  },
+  {
+    id: "f1",
+    name: "Practicas_IA_Logistica_2025.pdf",
+    size: "2.4 MB",
+    kind: "pdf",
+    pillarId: "datos",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-09-02",
+  },
+  {
+    id: "f2",
+    name: "Indicadores_Comite_Q3.xlsx",
+    size: "684 KB",
+    kind: "sheet",
+    pillarId: "datos",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-09-28",
+  },
+
+  // Pilar 02 · Ecosistema
+  {
+    id: "er1",
+    name: "Arquitectura_Ecosistema_Referencia.pdf",
+    size: "2.2 MB",
+    kind: "pdf",
+    pillarId: "ecosistema",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-08-14",
+  },
+  {
+    id: "er2",
+    name: "Directorio_Soluciones_Q3.xlsx",
+    size: "768 KB",
+    kind: "sheet",
+    pillarId: "ecosistema",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-09-09",
+  },
+  {
+    id: "er3",
+    name: "Diagrama_Integracion_Agentes.png",
+    size: "1.4 MB",
+    kind: "image",
+    pillarId: "ecosistema",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-06-27",
+  },
+  {
+    id: "f3",
+    name: "Protocolo_Pilotos_v3.docx",
+    size: "1.1 MB",
+    kind: "doc",
+    pillarId: "ecosistema",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-08-05",
   },
   {
     id: "s8",
     name: "Diagrama_Ecosistema_IA.jpg",
     size: "2.1 MB",
     kind: "image",
+    pillarId: "ecosistema",
+    accessLevel: "publico",
+    source: "enlace",
     updatedAt: "2026-07-22",
   },
+
+  // Pilar 03 · Cultura
+  {
+    id: "cr1",
+    name: "Ruta_Formacion_IA_Logistica.pdf",
+    size: "1.5 MB",
+    kind: "pdf",
+    pillarId: "cultura",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-09-16",
+  },
+  {
+    id: "cr2",
+    name: "Kit_Adopcion_Gestion_Cambio.docx",
+    size: "980 KB",
+    kind: "doc",
+    pillarId: "cultura",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-08-26",
+  },
+  {
+    id: "cr3",
+    name: "Calendario_Comunidad.xlsx",
+    size: "256 KB",
+    kind: "sheet",
+    pillarId: "cultura",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-09-20",
+  },
+  {
+    id: "f4",
+    name: "Mapa_Redes_Valor.png",
+    size: "3.8 MB",
+    kind: "image",
+    pillarId: "cultura",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-05-19",
+  },
+
+  // Pilar 04 · Gobernanza
+  {
+    id: "gr1",
+    name: "Marco_Gobernanza_IA.pdf",
+    size: "2.0 MB",
+    kind: "pdf",
+    pillarId: "gobernanza",
+    accessLevel: "publico",
+    source: "archivo",
+    updatedAt: "2026-09-11",
+  },
+  {
+    id: "gr2",
+    name: "Matriz_Riesgos_IA.xlsx",
+    size: "640 KB",
+    kind: "sheet",
+    pillarId: "gobernanza",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-08-30",
+  },
+  {
+    id: "gr3",
+    name: "Guia_IA_Responsable_v2.pdf",
+    size: "1.7 MB",
+    kind: "pdf",
+    pillarId: "gobernanza",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-09-25",
+  },
+  {
+    id: "s5",
+    name: "Guia_Logistica_Colaborativa.pdf",
+    size: "1.6 MB",
+    kind: "pdf",
+    pillarId: "gobernanza",
+    accessLevel: "publico",
+    source: "enlace",
+    updatedAt: "2026-09-18",
+  },
+  {
+    id: "s7",
+    name: "Acta_Plenaria_Septiembre.docx",
+    size: "320 KB",
+    kind: "doc",
+    pillarId: "gobernanza",
+    accessLevel: "miembros",
+    source: "archivo",
+    updatedAt: "2026-09-05",
+  },
 ];
+
+/** Documento del catálogo asignado a un pilar (mismo modelo que el buscador). */
+export type PillarResource = SearchableFile;
 
 /** Normaliza para comparar sin distinguir mayúsculas ni acentos. */
 const normalizeText = (value: string) =>
@@ -302,28 +521,28 @@ const normalizeText = (value: string) =>
     .toLowerCase();
 
 /**
- * Busca en los archivos de ejemplo por nombre (parcial, sin acentos ni
- * mayúsculas) y por los tipos activos. Pura: único punto a cambiar cuando la
- * fuente de datos pase a ser Azure Blob (misma firma, sin tocar la UI).
+ * Busca en el catálogo por nombre (parcial, sin acentos ni mayúsculas), tipo y
+ * nivel de acceso. Pura: único punto a cambiar cuando la fuente de datos pase a
+ * ser Azure Blob (misma firma, sin tocar la UI).
  */
 export function searchFiles(
   query: string,
   kinds: FileKind[] = [],
+  access: AccessLevel[] = [],
 ): SearchableFile[] {
   const term = normalizeText(query.trim());
-  return SEARCHABLE_FILES.filter((file) => {
+  return DOCUMENT_CATALOG.filter((file) => {
     const matchesName = term === "" || normalizeText(file.name).includes(term);
     const matchesKind = kinds.length === 0 || kinds.includes(file.kind);
-    return matchesName && matchesKind;
+    const matchesAccess =
+      access.length === 0 || access.includes(file.accessLevel);
+    return matchesName && matchesKind && matchesAccess;
   });
 }
 
-
-export interface PillarResource {
-  id: string;
-  name: string;
-  size: string;
-  kind: FileKind;
+/** Recursos descargables de un pilar, derivados del catálogo único. */
+export function getPillarResources(pillarId: string): PillarResource[] {
+  return DOCUMENT_CATALOG.filter((file) => file.pillarId === pillarId);
 }
 
 export interface PillarInitiative {
@@ -342,7 +561,6 @@ export interface PillarDetail {
   summary: string;
   objectives: string[];
   initiatives: PillarInitiative[];
-  resources: PillarResource[];
 }
 
 /**
@@ -396,11 +614,6 @@ export const PILLAR_DETAILS: Record<string, PillarDetail> = {
           "Plantillas legales y técnicas que habilitan el intercambio con confianza.",
       },
     ],
-    resources: [
-      { id: "dr1", name: "Marco_Interoperabilidad_Datos.pdf", size: "1.8 MB", kind: "pdf" },
-      { id: "dr2", name: "Catalogo_APIs_Compartidas.xlsx", size: "512 KB", kind: "sheet" },
-      { id: "dr3", name: "Plantilla_Acuerdo_Uso_Datos.docx", size: "420 KB", kind: "doc" },
-    ],
   },
   ecosistema: {
     id: "ecosistema",
@@ -439,11 +652,6 @@ export const PILLAR_DETAILS: Record<string, PillarDetail> = {
         description:
           "Espacios periódicos donde los equipos comparten arquitecturas y aprendizajes.",
       },
-    ],
-    resources: [
-      { id: "er1", name: "Arquitectura_Ecosistema_Referencia.pdf", size: "2.2 MB", kind: "pdf" },
-      { id: "er2", name: "Directorio_Soluciones_Q3.xlsx", size: "768 KB", kind: "sheet" },
-      { id: "er3", name: "Diagrama_Integracion_Agentes.png", size: "1.4 MB", kind: "image" },
     ],
   },
   cultura: {
@@ -484,11 +692,6 @@ export const PILLAR_DETAILS: Record<string, PillarDetail> = {
           "Guías y plantillas para gestionar el cambio en las organizaciones participantes.",
       },
     ],
-    resources: [
-      { id: "cr1", name: "Ruta_Formacion_IA_Logistica.pdf", size: "1.5 MB", kind: "pdf" },
-      { id: "cr2", name: "Kit_Adopcion_Gestion_Cambio.docx", size: "980 KB", kind: "doc" },
-      { id: "cr3", name: "Calendario_Comunidad.xlsx", size: "256 KB", kind: "sheet" },
-    ],
   },
   gobernanza: {
     id: "gobernanza",
@@ -528,16 +731,22 @@ export const PILLAR_DETAILS: Record<string, PillarDetail> = {
           "Instancia de revisión para casos de alto impacto o de alta sensibilidad.",
       },
     ],
-    resources: [
-      { id: "gr1", name: "Marco_Gobernanza_IA.pdf", size: "2.0 MB", kind: "pdf" },
-      { id: "gr2", name: "Matriz_Riesgos_IA.xlsx", size: "640 KB", kind: "sheet" },
-      { id: "gr3", name: "Guia_IA_Responsable_v2.pdf", size: "1.7 MB", kind: "pdf" },
-    ],
   },
 };
 
 /** Orden de exhibición de los pilares (para breadcrumb y chips). */
 export const PILLAR_ORDER: string[] = ["datos", "ecosistema", "cultura", "gobernanza"];
+
+/** Nombre corto del pilar, para etiquetas compactas (chips y metadatos). */
+export const PILLAR_SHORT_LABELS: Record<string, string> = {
+  datos: "Datos",
+  ecosistema: "Ecosistema",
+  cultura: "Cultura",
+  gobernanza: "Gobernanza",
+};
+
+export const pillarShortLabel = (pillarId: string) =>
+  PILLAR_SHORT_LABELS[pillarId] ?? pillarId;
 
 /** Lista ligera (id + título) para navegación entre pilares. */
 export const PILLAR_LINKS: { id: string; title: string }[] = PILLAR_ORDER.map((id) => ({

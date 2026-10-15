@@ -1,16 +1,30 @@
 import * as React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Download, Eye, FileSearch, Search, X } from "lucide-react";
 import {
+  ArrowLeft,
+  Download,
+  Eye,
+  FileSearch,
+  Lock,
+  Search,
+  X,
+} from "lucide-react";
+import {
+  ACCESS_LEVEL_META,
+  ACCESS_LEVEL_ORDER,
   FILE_KIND_META,
-  searchFiles,
+  pillarShortLabel,
+  type AccessLevel,
   type FileKind,
   type SearchableFile,
 } from "@/lib/committee";
+import { useFiles } from "@/lib/filesStore";
+import { openMemberAuth } from "@/lib/memberAuth";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { showSuccess } from "@/utils/toast";
+import { AccessBadge } from "../AccessBadge";
 import { GlassDialog } from "./GlassDialog";
 import { inputClass } from "./Field";
 import { FilePreviewPanel } from "./FilePreviewPanel";
@@ -25,8 +39,10 @@ const KIND_ORDER: FileKind[] = ["pdf", "sheet", "doc", "image"];
 
 export function SearchModal({ open, onOpenChange }: SearchModalProps) {
   const reduced = useReducedMotion();
+  const { searchAll } = useFiles();
   const [query, setQuery] = React.useState("");
   const [activeKinds, setActiveKinds] = React.useState<FileKind[]>([]);
+  const [activeAccess, setActiveAccess] = React.useState<AccessLevel[]>([]);
   const [previewFile, setPreviewFile] = React.useState<SearchableFile | null>(
     null,
   );
@@ -36,22 +52,39 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
     if (!open) {
       setQuery("");
       setActiveKinds([]);
+      setActiveAccess([]);
       setPreviewFile(null);
     }
   }, [open]);
 
   const results = React.useMemo(
-    () => searchFiles(query, activeKinds),
-    [query, activeKinds],
+    () => searchAll(query, activeKinds, activeAccess),
+    [searchAll, query, activeKinds, activeAccess],
   );
 
   const toggleKind = (kind: FileKind) =>
     setActiveKinds((prev) =>
-      prev.includes(kind) ? prev.filter((item) => item !== kind) : [...prev, kind],
+      prev.includes(kind)
+        ? prev.filter((item) => item !== kind)
+        : [...prev, kind],
     );
 
-  const handleDownload = (file: SearchableFile) =>
+  const toggleAccess = (level: AccessLevel) =>
+    setActiveAccess((prev) =>
+      prev.includes(level)
+        ? prev.filter((item) => item !== level)
+        : [...prev, level],
+    );
+
+  const handleDownload = (file: SearchableFile) => {
+    // Los documentos de miembros no se entregan desde aquí: se autentican en el
+    // portal externo (ver `openMemberAuth`).
+    if (file.accessLevel === "miembros") {
+      openMemberAuth();
+      return;
+    }
     showSuccess(`Descarga de demostración: ${file.name}`);
+  };
 
   const trimmedQuery = query.trim();
 
@@ -62,7 +95,9 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
       title={previewFile ? "Vista previa" : "Buscar archivos"}
       description={
         previewFile
-          ? `${FILE_KIND_META[previewFile.kind].label} · documento de la red`
+          ? `${FILE_KIND_META[previewFile.kind].label} · ${pillarShortLabel(
+              previewFile.pillarId,
+            )}`
           : "Encuentra guías, indicadores y actas compartidos en la red de valor."
       }
     >
@@ -142,6 +177,47 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
               })}
             </div>
 
+            <div
+              role="group"
+              aria-label="Filtrar por nivel de acceso"
+              className="flex flex-wrap gap-2"
+            >
+              {ACCESS_LEVEL_ORDER.map((level) => {
+                const active = activeAccess.includes(level);
+                const meta = ACCESS_LEVEL_META[level];
+                const Icon = meta.icon;
+                return (
+                  <button
+                    key={level}
+                    type="button"
+                    aria-pressed={active}
+                    aria-label={`Filtrar por acceso: ${meta.label}`}
+                    onClick={() => toggleAccess(level)}
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow",
+                      active
+                        ? level === "miembros"
+                          ? "border-komite-accent bg-komite-accent/20 text-komite-accent"
+                          : "border-komite-glow bg-komite-glow/20 text-komite-ink"
+                        : "border-komite-glow/25 bg-komite-deep/30 text-komite-soft hover:border-komite-glow/55 hover:text-komite-ink",
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "h-3.5 w-3.5",
+                        active
+                          ? level === "miembros"
+                            ? "text-komite-accent"
+                            : "text-komite-glow"
+                          : "text-komite-soft/70",
+                      )}
+                    />
+                    {meta.label}
+                  </button>
+                );
+              })}
+            </div>
+
             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-komite-soft/60">
               {results.length === 1 ? "1 archivo" : `${results.length} archivos`}
             </span>
@@ -159,20 +235,35 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
             <ul className="flex flex-col gap-1.5">
               {results.map((file) => {
                 const Icon = FILE_KIND_META[file.kind].icon;
+                const isMember = file.accessLevel === "miembros";
                 return (
                   <li
                     key={file.id}
-                    className="glass flex items-center gap-3 rounded-2xl px-3 py-2.5"
+                    className="glass flex items-start gap-3 rounded-2xl px-3 py-2.5"
                   >
                     <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-komite-turquoise/15 text-komite-glow">
                       <Icon className="h-4 w-4" />
                     </span>
-                    <span className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate text-[13px] text-komite-ink">
-                        {file.name}
+                    <span className="flex min-w-0 flex-1 flex-col gap-1.5">
+                      <span className="flex min-w-0 items-center gap-1.5">
+                        {isMember ? (
+                          <Lock
+                            aria-hidden="true"
+                            className="h-3.5 w-3.5 shrink-0 text-komite-accent"
+                          />
+                        ) : null}
+                        <span className="truncate text-[13px] text-komite-ink">
+                          {file.name}
+                        </span>
                       </span>
-                      <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-komite-soft/60">
-                        {FILE_KIND_META[file.kind].label} · {file.size}
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-komite-soft/60">
+                          {FILE_KIND_META[file.kind].label} · {file.size}
+                        </span>
+                        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-komite-glow/75">
+                          {pillarShortLabel(file.pillarId)}
+                        </span>
+                        <AccessBadge accessLevel={file.accessLevel} />
                       </span>
                     </span>
                     <span className="flex shrink-0 items-center gap-1.5">
@@ -185,15 +276,27 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
                       >
                         <Eye className="h-4 w-4" />
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDownload(file)}
-                        title="Descargar"
-                        aria-label={`Descargar ${file.name}`}
-                        className="grid h-9 w-9 place-items-center rounded-full border border-komite-glow/25 text-komite-glow transition-colors duration-200 hover:border-komite-glow/60 hover:bg-komite-glow/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
-                      >
-                        <Download className="h-4 w-4" />
-                      </button>
+                      {isMember ? (
+                        <button
+                          type="button"
+                          onClick={openMemberAuth}
+                          title="Requiere autenticación"
+                          aria-label={`Autenticarse para ver ${file.name}`}
+                          className="grid h-9 w-9 place-items-center rounded-full border border-komite-accent/50 text-komite-accent transition-colors duration-200 hover:border-komite-accent hover:bg-komite-accent/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
+                        >
+                          <Lock className="h-4 w-4" />
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleDownload(file)}
+                          title="Descargar"
+                          aria-label={`Descargar ${file.name}`}
+                          className="grid h-9 w-9 place-items-center rounded-full border border-komite-glow/25 text-komite-glow transition-colors duration-200 hover:border-komite-glow/60 hover:bg-komite-glow/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
+                        >
+                          <Download className="h-4 w-4" />
+                        </button>
+                      )}
                     </span>
                   </li>
                 );

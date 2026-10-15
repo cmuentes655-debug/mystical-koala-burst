@@ -1,3 +1,4 @@
+import * as React from "react";
 import { motion, type Variants } from "framer-motion";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -8,6 +9,8 @@ import {
   Download,
   FolderDown,
   ListChecks,
+  Lock,
+  Plus,
   ShieldAlert,
   Target,
   type LucideIcon,
@@ -15,8 +18,19 @@ import {
 import { ParticlesBackground } from "@/components/site/ParticlesBackground";
 import { TopBar } from "@/components/site/TopBar";
 import { ActionButton } from "@/components/site/ActionButton";
+import { AccessBadge } from "@/components/site/AccessBadge";
+import { UploadModal } from "@/components/site/modals/UploadModal";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { FILE_KIND_META, PILLAR_LINKS, getPillarDetail } from "@/lib/committee";
+import { useFiles } from "@/lib/filesStore";
+import { openMemberAuth } from "@/lib/memberAuth";
+import { showSuccess } from "@/utils/toast";
+import {
+  FILE_KIND_META,
+  PILLAR_LINKS,
+  getPillarDetail,
+  getPillarResources,
+  type PillarResource,
+} from "@/lib/committee";
 
 const container: Variants = {
   hidden: {},
@@ -44,8 +58,25 @@ const PilarDetail = () => {
   const navigate = useNavigate();
   const reduced = useReducedMotion();
   const detail = getPillarDetail(id);
+  const { recordsForPillar } = useFiles();
+  const [uploadOpen, setUploadOpen] = React.useState(false);
+
+  // Recursos del catálogo del pilar + lo agregado en esta sesión (va primero).
+  const resources = React.useMemo(
+    () => [...recordsForPillar(id), ...getPillarResources(id)],
+    [recordsForPillar, id],
+  );
 
   const goBack = () => navigate("/?tab=pilares");
+
+  /** Público: descarga de demostración. Miembros: autenticación externa. */
+  const handleResource = (file: PillarResource) => {
+    if (file.accessLevel === "miembros") {
+      openMemberAuth();
+      return;
+    }
+    showSuccess(`Descarga de demostración: ${file.name}`);
+  };
 
   return (
     <div
@@ -174,33 +205,74 @@ const PilarDetail = () => {
               </motion.section>
 
               <motion.section variants={item} className="flex flex-col gap-2.5">
-                <SectionHeading icon={FolderDown} label="Recursos descargables" />
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <SectionHeading icon={FolderDown} label="Recursos descargables" />
+                  <button
+                    type="button"
+                    onClick={() => setUploadOpen(true)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-komite-glow/25 bg-komite-deep/40 px-3.5 py-1.5 text-[12.5px] text-komite-ink transition-colors duration-200 hover:border-komite-glow/60 hover:bg-komite-glow/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
+                  >
+                    <Plus className="h-3.5 w-3.5 text-komite-glow" aria-hidden="true" />
+                    Agregar recurso
+                  </button>
+                </div>
                 <ul className="flex flex-col gap-1.5">
-                  {detail.resources.map((file) => {
+                  {resources.map((file) => {
                     const FileIcon = FILE_KIND_META[file.kind].icon;
+                    const isMember = file.accessLevel === "miembros";
                     return (
-                      <li
-                        key={file.id}
-                        className="glass flex items-center gap-3 rounded-2xl px-3 py-2.5"
-                      >
-                        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-komite-turquoise/15 text-komite-glow">
-                          <FileIcon className="h-4 w-4" />
-                        </span>
-                        <span className="flex min-w-0 flex-1 flex-col">
-                          <span className="truncate text-[13px] text-komite-ink">
-                            {file.name}
-                          </span>
-                          <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-komite-soft/60">
-                            {file.size}
-                          </span>
-                        </span>
+                      <li key={file.id}>
                         <button
                           type="button"
-                          title="Descarga de demostración"
-                          aria-label={`Descargar ${file.name}`}
-                          className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-komite-glow/25 text-komite-glow transition-colors duration-200 hover:border-komite-glow/60 hover:bg-komite-glow/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
+                          onClick={() => handleResource(file)}
+                          aria-label={
+                            isMember
+                              ? `Autenticarse para ver ${file.name}`
+                              : `Descargar ${file.name} (demostración)`
+                          }
+                          title={
+                            isMember
+                              ? "Requiere autenticación"
+                              : "Descarga de demostración"
+                          }
+                          className="glass flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors duration-200 hover:border-komite-glow/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow"
                         >
-                          <Download className="h-4 w-4" />
+                          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-komite-turquoise/15 text-komite-glow">
+                            <FileIcon className="h-4 w-4" aria-hidden="true" />
+                          </span>
+                          <span className="flex min-w-0 flex-1 flex-col gap-1">
+                            <span className="flex min-w-0 items-center gap-1.5">
+                              {isMember ? (
+                                <Lock
+                                  className="h-3.5 w-3.5 shrink-0 text-komite-accent"
+                                  aria-hidden="true"
+                                />
+                              ) : null}
+                              <span className="truncate text-[13px] text-komite-ink">
+                                {file.name}
+                              </span>
+                            </span>
+                            <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-komite-soft/60">
+                                {file.size}
+                              </span>
+                              <AccessBadge accessLevel={file.accessLevel} />
+                            </span>
+                          </span>
+                          <span
+                            aria-hidden="true"
+                            className={
+                              isMember
+                                ? "grid h-9 w-9 shrink-0 place-items-center rounded-full border border-komite-accent/50 text-komite-accent"
+                                : "grid h-9 w-9 shrink-0 place-items-center rounded-full border border-komite-glow/25 text-komite-glow"
+                            }
+                          >
+                            {isMember ? (
+                              <Lock className="h-4 w-4" />
+                            ) : (
+                              <Download className="h-4 w-4" />
+                            )}
+                          </span>
                         </button>
                       </li>
                     );
@@ -237,6 +309,14 @@ const PilarDetail = () => {
           </div>
         </main>
       )}
+
+      {detail ? (
+        <UploadModal
+          open={uploadOpen}
+          onOpenChange={setUploadOpen}
+          defaultPillarId={detail.id}
+        />
+      ) : null}
     </div>
   );
 };

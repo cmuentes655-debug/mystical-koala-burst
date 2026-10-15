@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import PilarDetail from "./pages/PilarDetail";
 import NotFound from "./pages/NotFound";
+import { FilesProvider } from "./lib/filesStore";
 
 const queryClient = new QueryClient();
 
@@ -15,12 +16,15 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter basename={import.meta.env.BASE_URL}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/pilares/:id" element={<PilarDetail />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        {/* Los documentos agregados se comparten entre rutas (pilar ↔ buscador). */}
+        <FilesProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/pilares/:id" element={<PilarDetail />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </FilesProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
