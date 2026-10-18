@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import { TopBar } from "@/components/site/TopBar";
 import { ResourceCover } from "@/components/resources/ResourceCover";
 import { getResourceById } from "@/components/resources/resourcesData";
-import { useResourcePalette } from "@/components/resources/ResourcesThemeToggle";
 import { openMemberAuth } from "@/lib/memberAuth";
 
 const formatDate = (iso: string) =>
@@ -17,14 +16,13 @@ const BACK_CLASS =
 /** Página de detalle de un blog público del repositorio. */
 const ResourceDetail = () => {
   const { id = "" } = useParams();
-  const [palette] = useResourcePalette();
   const resource = getResourceById(id);
   const isBlog = resource?.tipo_recurso === "blog";
   const isMember = resource?.nivel_acceso === "miembros";
 
   return (
     <div
-      data-resource-palette={palette}
+      data-resource-palette="a"
       className="resource-page-bg relative h-[100dvh] overflow-y-auto text-resource-heading"
     >
       <div className="sticky top-0 z-30">
@@ -37,11 +35,41 @@ const ResourceDetail = () => {
           className="pointer-events-none absolute inset-x-[-10%] top-0 h-[30rem] rounded-[999px] bg-[radial-gradient(58%_62%_at_50%_0%,rgba(95,227,204,0.16),rgba(95,227,204,0)_72%)]"
         />
 
-        <div className="relative">
+        <div className="relative flex flex-wrap items-center gap-x-3 gap-y-2">
           <Link to="/recursos-nuevo" className={BACK_CLASS}>
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Volver a recursos
           </Link>
+          <nav
+            aria-label="Ruta de navegación"
+            className="flex min-w-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-resource-muted"
+          >
+            <Link
+              to="/"
+              className="rounded-sm transition-colors duration-200 hover:text-resource-accent focus-visible:outline-none"
+            >
+              Inicio
+            </Link>
+            <span aria-hidden="true" className="text-resource-muted opacity-60">
+              /
+            </span>
+            <Link
+              to="/recursos-nuevo"
+              className="rounded-sm transition-colors duration-200 hover:text-resource-accent focus-visible:outline-none"
+            >
+              Recursos
+            </Link>
+            {resource ? (
+              <>
+                <span aria-hidden="true" className="text-resource-muted opacity-60">
+                  /
+                </span>
+                <span className="truncate text-resource-heading">
+                  {resource.titulo}
+                </span>
+              </>
+            ) : null}
+          </nav>
         </div>
 
         {!resource || !isBlog ? (

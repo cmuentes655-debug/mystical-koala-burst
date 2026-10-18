@@ -69,7 +69,7 @@ export default {
           faint: "#51534A",
         },
         // Tokens de la página de Recursos: se resuelven contra el marco
-        // activo ([data-resource-palette="a"|"b"]) definido en globals.css.
+        // ([data-resource-palette="a"]) definido en globals.css.
         // `page/heading/body/muted/surface/field*` viven en el lienzo;
         // `card*` y `cover-*` viven dentro de la card.
         resource: {

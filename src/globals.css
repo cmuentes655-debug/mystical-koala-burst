@@ -127,15 +127,16 @@
   }
 }
 
-/* Marcos comparables de la página de Recursos. Todo el color de esa sección
-   sale de estos tokens: cambiar `data-resource-palette` repinta la vista.
+/* Marco de la página de Recursos: todo el color de esa sección sale de estos
+   tokens, aplicados por el atributo `data-resource-palette="a"` que las páginas
+   escriben en su raíz (diseño elegido: marco verde profundo de marca).
 
    Los tokens se dividen en dos capas:
    - página: `page/page-glow/heading/body/muted/border/surface/field*` (lienzo)
    - card: `card/card-text/card-muted/card-border/cover-*` (papel sobre el lienzo)
-   Así el marco puede ser oscuro o claro sin que la card cambie de contraste. */
+   Así el lienzo puede ser oscuro sin que la card pierda contraste. */
 @layer base {
-  /* Diseño A · marco verde profundo de marca ("mesa profunda") */
+  /* Marco verde profundo · "mesa profunda" */
   [data-resource-palette="a"] {
     --res-page: #00211d;
     --res-page-glow: radial-gradient(
@@ -169,41 +170,6 @@
     --res-public: #00b398;
     --res-member: #fc4c02;
     --res-focus: #5fe3cc;
-  }
-
-  /* Diseño B · papel claro tintado en turquesa ("papel de marca") */
-  [data-resource-palette="b"] {
-    --res-page: #eef5f3;
-    --res-page-glow: radial-gradient(
-      120% 70% at 50% 0%,
-      rgba(0, 179, 152, 0.1) 0%,
-      rgba(238, 245, 243, 0) 70%
-    );
-    --res-heading: #00211d;
-    --res-body: #3f4d4a;
-    --res-muted: #5b6663;
-    --res-border: #d8e6e2;
-    --res-surface: #ffffff;
-    --res-surface-2: #e6f3f0;
-    --res-field: #ffffff;
-    --res-field-border: #dcebe8;
-    --res-field-text: #00211d;
-    --res-card: #ffffff;
-    --res-card-text: #00211d;
-    --res-card-muted: #5b6663;
-    --res-card-border: #dcebe8;
-    --res-cover-bg: #f0f7f5;
-    --res-cover-fg: #5b6663;
-    --res-tag: #00b398;
-    --res-tag-fg: #00211d;
-    --res-accent: #fc4c02;
-    --res-action: #00b398;
-    --res-action-fg: #00211d;
-    --res-chip: #ddf5f0;
-    --res-chip-fg: #014a3f;
-    --res-public: #00b398;
-    --res-member: #fc4c02;
-    --res-focus: #00b398;
   }
 
   [data-resource-palette] :focus-visible {
