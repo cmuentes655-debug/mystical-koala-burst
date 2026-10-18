@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import PilarDetail from "./pages/PilarDetail";
+import ResourcesNew from "./pages/ResourcesNew";
+import ResourceDetail from "./pages/ResourceDetail";
 import NotFound from "./pages/NotFound";
 import { FilesProvider } from "./lib/filesStore";
 
@@ -21,6 +23,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/pilares/:id" element={<PilarDetail />} />
+            <Route path="/recursos-nuevo" element={<ResourcesNew />} />
+            <Route path="/recursos-nuevo/:id" element={<ResourceDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

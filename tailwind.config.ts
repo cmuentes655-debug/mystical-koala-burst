@@ -68,6 +68,26 @@ export default {
           soft: "#DCDDDB",
           faint: "#51534A",
         },
+        // Tokens de la página de Recursos: se resuelven contra la paleta
+        // activa ([data-resource-palette="a"|"b"]) definida en globals.css.
+        resource: {
+          page: "var(--res-page)",
+          surface: "var(--res-surface)",
+          surface2: "var(--res-surface-2)",
+          border: "var(--res-border)",
+          text: "var(--res-text)",
+          muted: "var(--res-muted)",
+          tag: "var(--res-tag)",
+          "tag-fg": "var(--res-tag-fg)",
+          accent: "var(--res-accent)",
+          action: "var(--res-action)",
+          "action-fg": "var(--res-action-fg)",
+          chip: "var(--res-chip)",
+          "chip-fg": "var(--res-chip-fg)",
+          public: "var(--res-public)",
+          member: "var(--res-member)",
+          focus: "var(--res-focus)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

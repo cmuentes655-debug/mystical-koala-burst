@@ -127,6 +127,53 @@
   }
 }
 
+/* Paletas comparables de la página de Recursos. Todo el color de esa sección
+   sale de estos tokens: cambiar `data-resource-palette` repinta la vista. */
+@layer base {
+  [data-resource-palette="a"] {
+    --res-page: #ffffff;
+    --res-surface: #f5f7f6;
+    --res-surface-2: #eef2f0;
+    --res-border: #e3e8e5;
+    --res-text: #0b2b26;
+    --res-muted: #5b6663;
+    --res-tag: #003d35;
+    --res-tag-fg: #ffffff;
+    --res-accent: #fc4c02;
+    --res-action: #fc4c02;
+    --res-action-fg: #00211d;
+    --res-chip: #e7f1ee;
+    --res-chip-fg: #014a3f;
+    --res-public: #00b398;
+    --res-member: #fc4c02;
+    --res-focus: #00b398;
+  }
+
+  [data-resource-palette="b"] {
+    --res-page: #ffffff;
+    --res-surface: #f4faf9;
+    --res-surface-2: #e6f3f0;
+    --res-border: #dcebe8;
+    --res-text: #00211d;
+    --res-muted: #5b6663;
+    --res-tag: #00b398;
+    --res-tag-fg: #00211d;
+    --res-accent: #fc4c02;
+    --res-action: #00b398;
+    --res-action-fg: #00211d;
+    --res-chip: #ddf5f0;
+    --res-chip-fg: #014a3f;
+    --res-public: #00b398;
+    --res-member: #fc4c02;
+    --res-focus: #00b398;
+  }
+
+  [data-resource-palette] :focus-visible {
+    outline: 2px solid var(--res-focus);
+    outline-offset: 2px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,4 +1,6 @@
 import { LogIn, UserPlus } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 import { ActionButton } from "./ActionButton";
 
 interface TopBarProps {
@@ -9,9 +11,16 @@ interface TopBarProps {
 const SHOW_AUTH_ACTIONS = false;
 
 export function TopBar({ onLogin, onJoin }: TopBarProps) {
+  const { pathname } = useLocation();
+  const resourcesActive = pathname.startsWith("/recursos-nuevo");
+
   return (
     <header className="relative z-30 flex shrink-0 items-center justify-between gap-3 border-b border-komite-glow/15 bg-komite-deep/40 px-4 py-2.5 backdrop-blur-xl sm:px-6 sm:py-3 lg:px-10">
-      <div className="flex min-w-0 items-center gap-2.5">
+      <Link
+        to="/"
+        className="flex min-w-0 items-center gap-2.5 rounded-xl transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow focus-visible:ring-offset-2 focus-visible:ring-offset-komite-deep"
+        aria-label="Ir al inicio"
+      >
         <img
           src={`${import.meta.env.BASE_URL}logo.svg`}
           alt=""
@@ -25,29 +34,46 @@ export function TopBar({ onLogin, onJoin }: TopBarProps) {
             Redes de Valor
           </span>
         </span>
-      </div>
+      </Link>
 
-      {SHOW_AUTH_ACTIONS && (
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          <ActionButton
-            variant="ghost"
-            onClick={onLogin}
-            className="px-3 py-2 text-[13px] sm:px-4"
-            aria-label="Iniciar sesión"
+      <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+        <nav aria-label="Secciones del sitio">
+          <Link
+            to="/recursos-nuevo"
+            aria-current={resourcesActive ? "page" : undefined}
+            className={cn(
+              "inline-flex items-center rounded-full border px-3.5 py-1.5 text-[12.5px] font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-komite-glow focus-visible:ring-offset-2 focus-visible:ring-offset-komite-deep",
+              resourcesActive
+                ? "border-komite-glow/60 bg-komite-glow/15 text-komite-ink"
+                : "border-komite-glow/25 text-komite-ink hover:border-komite-glow/60 hover:bg-komite-glow/10",
+            )}
           >
-            <LogIn className="h-4 w-4" />
-            <span className="hidden sm:inline">Iniciar sesión</span>
-          </ActionButton>
-          <ActionButton
-            onClick={onJoin}
-            className="px-3.5 py-2 text-[13px] sm:px-5"
-            aria-label="Unirse"
-          >
-            <UserPlus className="h-4 w-4" />
-            <span>Unirse</span>
-          </ActionButton>
-        </div>
-      )}
+            Recursos
+          </Link>
+        </nav>
+
+        {SHOW_AUTH_ACTIONS && (
+          <>
+            <ActionButton
+              variant="ghost"
+              onClick={onLogin}
+              className="px-3 py-2 text-[13px] sm:px-4"
+              aria-label="Iniciar sesión"
+            >
+              <LogIn className="h-4 w-4" />
+              <span className="hidden sm:inline">Iniciar sesión</span>
+            </ActionButton>
+            <ActionButton
+              onClick={onJoin}
+              className="px-3.5 py-2 text-[13px] sm:px-5"
+              aria-label="Unirse"
+            >
+              <UserPlus className="h-4 w-4" />
+              <span>Unirse</span>
+            </ActionButton>
+          </>
+        )}
+      </div>
     </header>
   );
 }
