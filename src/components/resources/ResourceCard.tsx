@@ -46,7 +46,8 @@ interface ResourceCardProps {
  * Card del repositorio: portada 16:10, título con barra de acento, fecha,
  * extracto y pie con autor, formato y la acción que corresponde al recurso
  * (miembros → portal externo, blog → detalle, enlace → nueva pestaña,
- * archivo → descarga).
+ * archivo → descarga). La card usa los tokens `card*` para ser una superficie
+ * clara ("papel") sobre cualquier marco, oscuro o claro.
  */
 export function ResourceCard({ resource, className }: ResourceCardProps) {
   const kind = actionKind(resource);
@@ -82,14 +83,14 @@ export function ResourceCard({ resource, className }: ResourceCardProps) {
   return (
     <article
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-2xl border border-resource-border bg-resource-page shadow-[0_1px_2px_rgba(0,33,29,0.05)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-resource-accent/45 hover:shadow-[0_18px_34px_-26px_rgba(0,33,29,0.5)] focus-within:border-resource-focus",
+        "group flex h-full flex-col overflow-hidden rounded-2xl border border-resource-card-border bg-resource-card shadow-[0_1px_2px_rgba(0,33,29,0.05)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-resource-accent hover:shadow-[0_18px_34px_-18px_rgba(0,33,29,0.45)] focus-within:border-resource-focus",
         className,
       )}
     >
       <ResourceCover resource={resource} />
 
       <div className="flex flex-1 flex-col gap-2.5 p-4 sm:p-5">
-        <h3 className="relative pl-3 font-display text-[15px] font-bold leading-snug tracking-tight text-resource-text sm:text-base">
+        <h3 className="relative pl-3 font-display text-[15px] font-bold leading-snug tracking-tight text-resource-card-text sm:text-base">
           <span
             aria-hidden="true"
             className="absolute left-0 top-0.5 h-[calc(100%-0.25rem)] w-[3px] rounded-full bg-resource-accent"
@@ -97,7 +98,7 @@ export function ResourceCard({ resource, className }: ResourceCardProps) {
           {isBlog && kind !== "miembros" ? (
             <Link
               to={detailPath}
-              className="line-clamp-3 rounded-sm hover:text-resource-tag focus-visible:outline-none"
+              className="line-clamp-3 rounded-sm hover:text-resource-accent focus-visible:outline-none"
             >
               {resource.titulo}
             </Link>
@@ -106,20 +107,20 @@ export function ResourceCard({ resource, className }: ResourceCardProps) {
           )}
         </h3>
 
-        <p className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-resource-muted">
+        <p className="flex items-center gap-1.5 font-mono text-[10.5px] uppercase tracking-[0.14em] text-resource-card-muted">
           <CalendarDays className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           <span className="capitalize">{formatDate(resource.fecha_publicacion)}</span>
         </p>
 
-        <p className="line-clamp-3 text-[13px] leading-relaxed text-resource-muted">
+        <p className="line-clamp-3 text-[13px] leading-relaxed text-resource-card-muted">
           {resource.extracto}
         </p>
 
         <div className="mt-auto flex flex-col gap-3 pt-1">
-          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-resource-border pt-3">
-            <span className="inline-flex min-w-0 items-center gap-1.5 text-[12px] text-resource-text">
+          <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 border-t border-resource-card-border pt-3">
+            <span className="inline-flex min-w-0 items-center gap-1.5 text-[12px] text-resource-card-text">
               <UserRound
-                className="h-3.5 w-3.5 shrink-0 text-resource-muted"
+                className="h-3.5 w-3.5 shrink-0 text-resource-card-muted"
                 aria-hidden="true"
               />
               <span className="truncate">{resource.autor}</span>

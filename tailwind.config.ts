@@ -68,15 +68,27 @@ export default {
           soft: "#DCDDDB",
           faint: "#51534A",
         },
-        // Tokens de la página de Recursos: se resuelven contra la paleta
-        // activa ([data-resource-palette="a"|"b"]) definida en globals.css.
+        // Tokens de la página de Recursos: se resuelven contra el marco
+        // activo ([data-resource-palette="a"|"b"]) definido en globals.css.
+        // `page/heading/body/muted/surface/field*` viven en el lienzo;
+        // `card*` y `cover-*` viven dentro de la card.
         resource: {
           page: "var(--res-page)",
-          surface: "var(--res-surface)",
-          surface2: "var(--res-surface-2)",
-          border: "var(--res-border)",
-          text: "var(--res-text)",
+          heading: "var(--res-heading)",
+          body: "var(--res-body)",
           muted: "var(--res-muted)",
+          surface: "var(--res-surface)",
+          "surface-2": "var(--res-surface-2)",
+          border: "var(--res-border)",
+          field: "var(--res-field)",
+          "field-border": "var(--res-field-border)",
+          "field-text": "var(--res-field-text)",
+          card: "var(--res-card)",
+          "card-text": "var(--res-card-text)",
+          "card-muted": "var(--res-card-muted)",
+          "card-border": "var(--res-card-border)",
+          "cover-bg": "var(--res-cover-bg)",
+          "cover-fg": "var(--res-cover-fg)",
           tag: "var(--res-tag)",
           "tag-fg": "var(--res-tag-fg)",
           accent: "var(--res-accent)",

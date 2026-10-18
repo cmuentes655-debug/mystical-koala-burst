@@ -16,7 +16,7 @@ import {
 } from "./ResourceTypes";
 
 const FIELD_CLASS =
-  "h-10 w-full appearance-none rounded-xl border border-resource-border bg-resource-page px-3 pr-9 text-[13px] text-resource-text transition-colors duration-200 hover:border-resource-focus/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus disabled:cursor-not-allowed disabled:border-resource-border disabled:bg-resource-surface2 disabled:text-resource-muted";
+  "h-10 w-full appearance-none rounded-xl border border-resource-field-border bg-resource-field px-3 pr-9 text-[13px] text-resource-field-text transition-colors duration-200 hover:border-resource-focus focus:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus disabled:cursor-not-allowed disabled:border-resource-border disabled:bg-resource-surface-2 disabled:text-resource-muted disabled:hover:border-resource-border";
 
 const LABEL_CLASS =
   "font-mono text-[9.5px] uppercase tracking-[0.18em] text-resource-muted";
@@ -126,7 +126,7 @@ export function ResourceFilters({
     <section
       aria-label="Filtros de recursos"
       className={cn(
-        "rounded-2xl border border-resource-border bg-resource-surface p-3 sm:p-4",
+        "rounded-2xl border border-resource-border bg-resource-surface p-3 backdrop-blur-md sm:p-4",
         className,
       )}
     >
@@ -136,7 +136,7 @@ export function ResourceFilters({
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-controls="resource-filters-panel"
-          className="inline-flex items-center gap-2 rounded-full border border-resource-border bg-resource-page px-3.5 py-2 text-[13px] font-semibold text-resource-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus"
+          className="inline-flex items-center gap-2 rounded-full border border-resource-field-border bg-resource-field px-3.5 py-2 text-[13px] font-semibold text-resource-field-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus"
         >
           <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
           Filtros
@@ -157,7 +157,7 @@ export function ResourceFilters({
           <button
             type="button"
             onClick={handleClear}
-            className="inline-flex items-center gap-1 text-[12px] font-semibold text-resource-muted hover:text-resource-tag focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus"
+            className="inline-flex items-center gap-1 text-[12px] font-semibold text-resource-muted hover:text-resource-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus"
           >
             <X className="h-3.5 w-3.5" aria-hidden="true" />
             Limpiar
@@ -189,7 +189,7 @@ export function ResourceFilters({
               onChange={(event) => update("q", event.target.value)}
               placeholder="Título o descripción del recurso"
               className={cn(
-                "h-10 w-full rounded-xl border border-resource-border bg-resource-page pl-9 pr-3 text-[13px] text-resource-text placeholder:text-resource-muted/80 transition-colors duration-200 hover:border-resource-focus/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus",
+                "h-10 w-full rounded-xl border border-resource-field-border bg-resource-field pl-9 pr-3 text-[13px] text-resource-field-text placeholder:text-resource-muted transition-colors duration-200 hover:border-resource-focus focus:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus",
               )}
             />
           </div>
@@ -286,7 +286,7 @@ export function ResourceFilters({
             <button
               type="button"
               onClick={handleClear}
-              className="inline-flex h-10 items-center justify-center rounded-xl border border-resource-border bg-resource-page px-3.5 text-[13px] font-semibold text-resource-text transition-colors duration-200 hover:border-resource-focus hover:text-resource-tag focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2"
+              className="inline-flex h-10 items-center justify-center rounded-xl border border-resource-field-border bg-resource-field px-3.5 text-[13px] font-semibold text-resource-field-text transition-colors duration-200 hover:border-resource-focus hover:text-resource-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2"
             >
               Limpiar filtros
             </button>

@@ -29,12 +29,12 @@ export function ResourceGrid({ items, isLoading, onClearFilters }: ResourceGridP
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-resource-border bg-resource-surface px-6 py-14 text-center">
-        <span className="grid h-14 w-14 place-items-center rounded-2xl border border-resource-border bg-resource-page text-resource-muted">
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-resource-border bg-resource-surface px-6 py-14 text-center backdrop-blur-md">
+        <span className="grid h-14 w-14 place-items-center rounded-2xl border border-resource-field-border bg-resource-field text-resource-muted">
           <SearchX className="h-6 w-6" aria-hidden="true" />
         </span>
         <div className="flex flex-col gap-1.5">
-          <p className="font-display text-base font-semibold text-resource-text">
+          <p className="font-display text-base font-semibold text-resource-heading">
             No encontramos recursos con estos filtros
           </p>
           <p className="text-sm text-resource-muted">
@@ -44,7 +44,7 @@ export function ResourceGrid({ items, isLoading, onClearFilters }: ResourceGridP
         <button
           type="button"
           onClick={onClearFilters}
-          className="inline-flex items-center gap-2 rounded-full border border-resource-tag px-4 py-2 text-[13px] font-semibold text-resource-tag transition-colors duration-200 hover:bg-resource-tag hover:text-resource-tag-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2"
+          className="inline-flex items-center gap-2 rounded-full border border-resource-field-border bg-resource-field px-4 py-2 text-[13px] font-semibold text-resource-field-text transition-colors duration-200 hover:border-resource-accent hover:text-resource-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2"
         >
           Limpiar filtros
         </button>

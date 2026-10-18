@@ -127,16 +127,38 @@
   }
 }
 
-/* Paletas comparables de la página de Recursos. Todo el color de esa sección
-   sale de estos tokens: cambiar `data-resource-palette` repinta la vista. */
+/* Marcos comparables de la página de Recursos. Todo el color de esa sección
+   sale de estos tokens: cambiar `data-resource-palette` repinta la vista.
+
+   Los tokens se dividen en dos capas:
+   - página: `page/page-glow/heading/body/muted/border/surface/field*` (lienzo)
+   - card: `card/card-text/card-muted/card-border/cover-*` (papel sobre el lienzo)
+   Así el marco puede ser oscuro o claro sin que la card cambie de contraste. */
 @layer base {
+  /* Diseño A · marco verde profundo de marca ("mesa profunda") */
   [data-resource-palette="a"] {
-    --res-page: #ffffff;
-    --res-surface: #f5f7f6;
-    --res-surface-2: #eef2f0;
-    --res-border: #e3e8e5;
-    --res-text: #0b2b26;
-    --res-muted: #5b6663;
+    --res-page: #00211d;
+    --res-page-glow: radial-gradient(
+      120% 82% at 64% 6%,
+      rgba(1, 74, 63, 0.9) 0%,
+      rgba(0, 61, 53, 0.55) 40%,
+      rgba(0, 33, 29, 0) 78%
+    );
+    --res-heading: #f2fbf9;
+    --res-body: #dcebe7;
+    --res-muted: #a8c5bf;
+    --res-border: rgba(95, 227, 204, 0.22);
+    --res-surface: rgba(0, 33, 29, 0.55);
+    --res-surface-2: rgba(95, 227, 204, 0.1);
+    --res-field: rgba(242, 251, 249, 0.07);
+    --res-field-border: rgba(95, 227, 204, 0.3);
+    --res-field-text: #f2fbf9;
+    --res-card: #fbfdfc;
+    --res-card-text: #0b2b26;
+    --res-card-muted: #5b6663;
+    --res-card-border: #e3e8e5;
+    --res-cover-bg: #eef2f0;
+    --res-cover-fg: #5b6663;
     --res-tag: #003d35;
     --res-tag-fg: #ffffff;
     --res-accent: #fc4c02;
@@ -146,16 +168,32 @@
     --res-chip-fg: #014a3f;
     --res-public: #00b398;
     --res-member: #fc4c02;
-    --res-focus: #00b398;
+    --res-focus: #5fe3cc;
   }
 
+  /* Diseño B · papel claro tintado en turquesa ("papel de marca") */
   [data-resource-palette="b"] {
-    --res-page: #ffffff;
-    --res-surface: #f4faf9;
-    --res-surface-2: #e6f3f0;
-    --res-border: #dcebe8;
-    --res-text: #00211d;
+    --res-page: #eef5f3;
+    --res-page-glow: radial-gradient(
+      120% 70% at 50% 0%,
+      rgba(0, 179, 152, 0.1) 0%,
+      rgba(238, 245, 243, 0) 70%
+    );
+    --res-heading: #00211d;
+    --res-body: #3f4d4a;
     --res-muted: #5b6663;
+    --res-border: #d8e6e2;
+    --res-surface: #ffffff;
+    --res-surface-2: #e6f3f0;
+    --res-field: #ffffff;
+    --res-field-border: #dcebe8;
+    --res-field-text: #00211d;
+    --res-card: #ffffff;
+    --res-card-text: #00211d;
+    --res-card-muted: #5b6663;
+    --res-card-border: #dcebe8;
+    --res-cover-bg: #f0f7f5;
+    --res-cover-fg: #5b6663;
     --res-tag: #00b398;
     --res-tag-fg: #00211d;
     --res-accent: #fc4c02;
@@ -171,6 +209,15 @@
   [data-resource-palette] :focus-visible {
     outline: 2px solid var(--res-focus);
     outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Los gradientes no caben en una clase de color de Tailwind: color + halo. */
+  .resource-page-bg {
+    background-color: var(--res-page);
+    background-image: var(--res-page-glow);
+    background-attachment: local;
   }
 }
 

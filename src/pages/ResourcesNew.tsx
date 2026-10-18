@@ -12,9 +12,9 @@ import { useResourcesQuery } from "@/components/resources/useResourcesQuery";
 
 /**
  * Entorno de pruebas del submenú "Recursos (nuevo)". Todo el color sale de los
- * tokens `resource.*`, así que el toggle A/B repinta la página sin duplicar
- * componentes. Cuando se fije la paleta, basta con dejar el default y quitar el
- * toggle.
+ * tokens `resource.*`, así que el toggle A/B cambia el marco completo (lienzo,
+ * superficies, campos y cards) sin duplicar componentes. Cuando se fije el
+ * diseño ganador, basta con dejar el default y quitar el toggle.
  */
 const ResourcesNew = () => {
   const [palette, setPalette] = useResourcePalette();
@@ -29,19 +29,24 @@ const ResourcesNew = () => {
   return (
     <div
       data-resource-palette={palette}
-      className="relative h-[100dvh] overflow-y-auto bg-resource-page text-resource-text"
+      className="resource-page-bg relative h-[100dvh] overflow-y-auto text-resource-heading"
     >
       <div className="sticky top-0 z-30">
         <TopBar onLogin={() => {}} onJoin={() => {}} />
       </div>
 
-      <main className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 pb-12 pt-6 sm:gap-6 sm:px-6 sm:pt-8 lg:px-8">
-        <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 pb-12 pt-6 sm:gap-6 sm:px-6 sm:pt-8 lg:px-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[-6%] top-0 h-[34rem] rounded-[999px] bg-[radial-gradient(58%_62%_at_50%_0%,rgba(95,227,204,0.16),rgba(95,227,204,0)_72%)]"
+        />
+
+        <header className="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="flex min-w-0 flex-col gap-1.5">
             <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-resource-muted">
               Repositorio del comité
             </span>
-            <h1 className="font-display text-3xl font-bold tracking-tight text-resource-text sm:text-4xl">
+            <h1 className="font-display text-3xl font-bold tracking-tight text-resource-heading sm:text-4xl">
               Recursos
             </h1>
             <p className="max-w-xl text-sm leading-relaxed text-resource-muted">
@@ -61,7 +66,7 @@ const ResourcesNew = () => {
 
         <div ref={listTopRef} className="scroll-mt-24" />
 
-        <div className="flex flex-col gap-1">
+        <div className="relative flex flex-col gap-1">
           <p
             aria-live="polite"
             className="font-mono text-[11px] uppercase tracking-[0.16em] text-resource-muted"
@@ -90,8 +95,8 @@ const ResourcesNew = () => {
         />
 
         <footer className="mt-4 flex flex-col items-center gap-2 border-t border-resource-border pt-6 text-center">
-          <span className="inline-flex items-center gap-2 font-display text-sm font-semibold text-resource-text">
-            <Library className="h-4 w-4 text-resource-tag" aria-hidden="true" />
+          <span className="inline-flex items-center gap-2 font-display text-sm font-semibold text-resource-heading">
+            <Library className="h-4 w-4 text-resource-accent" aria-hidden="true" />
             Adopción de IA · Redes de Valor
           </span>
           <span className="font-mono text-[9.5px] uppercase tracking-[0.22em] text-resource-muted">

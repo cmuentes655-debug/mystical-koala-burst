@@ -21,7 +21,8 @@ interface ResourceCoverProps {
  * Portada de un recurso en proporción 16:10. Las imágenes anchas se recortan
  * (`object-cover`); las verticales tipo carátula se muestran completas
  * (`object-contain`) sobre fondo claro, como una hoja de documento. Sin
- * portada (o si la remota falla) se pinta un placeholder con la marca.
+ * portada (o si la remota falla) se pinta un placeholder con los tokens
+ * `cover-*`, para que no herede el vidrio oscuro del marco.
  */
 export function ResourceCover({
   resource,
@@ -43,7 +44,7 @@ export function ResourceCover({
   return (
     <div
       className={cn(
-        "relative aspect-[16/10] w-full overflow-hidden bg-resource-surface2",
+        "relative aspect-[16/10] w-full overflow-hidden bg-resource-cover-bg",
         className,
       )}
     >
@@ -63,9 +64,9 @@ export function ResourceCover({
       ) : (
         <div
           aria-hidden="true"
-          className="flex h-full w-full flex-col items-center justify-center gap-2 bg-resource-surface2 text-resource-muted"
+          className="flex h-full w-full flex-col items-center justify-center gap-2 bg-resource-cover-bg text-resource-cover-fg"
         >
-          <span className="grid h-14 w-14 place-items-center rounded-2xl border border-resource-border bg-resource-page">
+          <span className="grid h-14 w-14 place-items-center rounded-2xl border border-resource-card-border bg-resource-card">
             <FileIcon className="h-6 w-6" />
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">

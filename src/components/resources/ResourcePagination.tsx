@@ -2,7 +2,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const NAV_CLASS =
-  "inline-flex items-center gap-1.5 rounded-full border border-resource-border bg-resource-page px-3 py-1.5 text-[12.5px] font-semibold text-resource-text transition-colors duration-200 hover:border-resource-focus hover:text-resource-tag focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-resource-border disabled:hover:text-resource-text";
+  "inline-flex items-center gap-1.5 rounded-full border border-resource-field-border bg-resource-field px-3 py-1.5 text-[12.5px] font-semibold text-resource-field-text transition-colors duration-200 hover:border-resource-focus hover:text-resource-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-resource-field-border disabled:hover:text-resource-field-text";
 
 type PageItem = number | "ellipsis";
 
@@ -72,7 +72,7 @@ export function ResourcePagination({
                   "grid h-9 w-9 place-items-center rounded-full border font-mono text-[12.5px] font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-resource-focus focus-visible:ring-offset-2",
                   item === page
                     ? "border-resource-tag bg-resource-tag text-resource-tag-fg"
-                    : "border-resource-border bg-resource-page text-resource-text hover:border-resource-focus hover:text-resource-tag",
+                    : "border-resource-field-border bg-resource-field text-resource-field-text hover:border-resource-focus hover:text-resource-accent",
                 )}
               >
                 {item}
