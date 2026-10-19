@@ -118,7 +118,7 @@ const ResourcesNew = () => {
             Adopción de IA · Redes de Valor
           </span>
           <span className="font-mono text-[9.5px] uppercase tracking-[0.22em] text-resource-muted">
-            Recursos del comité · datos de ejemplo
+            Recursos del comité
           </span>
         </footer>
       </main>
