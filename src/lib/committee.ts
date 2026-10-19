@@ -112,46 +112,42 @@ export interface CommitteeEvent {
   time: string;
   place: string;
   modality: EventModality;
+  /**
+   * Si el registro está abierto (`true`) se muestra el botón de inscripción;
+   * en los encuentros ya realizados (`false` o ausente) se marca como finalizado.
+   */
+  registrationOpen?: boolean;
 }
 
 export const EVENTS: CommitteeEvent[] = [
   {
-    id: "plenaria-oct",
+    id: "comite-oct",
     title: "Sesión plenaria del comité",
     description:
-      "Revisión de avances de los pilotos y validación de la hoja de ruta trimestral.",
-    date: "2026-10-15",
+      "Próxima fecha del comité: revisión de avances de los pilotos y validación de la hoja de ruta.",
+    date: "2026-10-27",
     time: "9:00 a. m.",
-    place: "Sala virtual del comité",
-    modality: "Virtual",
-  },
-  {
-    id: "taller-protocolos",
-    title: "Taller: protocolos de IA responsable",
-    description:
-      "Construcción colaborativa de guías prácticas para adopción segura en operaciones.",
-    date: "2026-10-29",
-    time: "2:30 p. m.",
     place: "Cámara de Comercio, Bogotá",
     modality: "Presencial",
+    registrationOpen: true,
   },
   {
-    id: "demo-day",
+    id: "demo-sep",
     title: "Demo day de pilotos",
     description:
-      "Los equipos presentan resultados de los pilotos de IA en operación real.",
-    date: "2026-11-12",
+      "Los equipos presentaron los resultados de los pilotos de IA en operación real.",
+    date: "2026-09-18",
     time: "8:30 a. m.",
     place: "Auditorio central + transmisión en vivo",
     modality: "Híbrido",
   },
   {
-    id: "cierre-anual",
-    title: "Cierre anual y hoja de ruta 2027",
+    id: "taller-ago",
+    title: "Taller: protocolos de IA responsable",
     description:
-      "Balance de indicadores compartidos y prioridades del comité para el próximo año.",
-    date: "2026-12-03",
-    time: "4:00 p. m.",
+      "Construcción colaborativa de guías prácticas para la adopción segura en operaciones.",
+    date: "2026-08-06",
+    time: "2:30 p. m.",
     place: "Sala virtual del comité",
     modality: "Virtual",
   },

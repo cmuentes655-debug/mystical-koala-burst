@@ -72,13 +72,19 @@ export function ProximasFechasPanel({ onRegister }: ProximasFechasPanelProps) {
                     </span>
                     <div className="ml-auto flex shrink-0 flex-col items-end gap-1.5">
                       <ModalityBadge modality={event.modality} />
-                      <ActionButton
-                        onClick={() => onRegister(event)}
-                        className="px-4 py-2 text-[13px]"
-                      >
-                        <CalendarPlus className="h-4 w-4" />
-                        Inscribirse
-                      </ActionButton>
+                      {event.registrationOpen ? (
+                        <ActionButton
+                          onClick={() => onRegister(event)}
+                          className="px-4 py-2 text-[13px]"
+                        >
+                          <CalendarPlus className="h-4 w-4" />
+                          Inscribirse
+                        </ActionButton>
+                      ) : (
+                        <span className="rounded-full border border-komite-soft/25 px-3 py-0.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-komite-soft/55">
+                          Finalizado
+                        </span>
+                      )}
                     </div>
                   </div>
 
