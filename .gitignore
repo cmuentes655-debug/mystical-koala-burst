@@ -29,4 +29,3 @@ dist-ssr
 /playwright/.cache/
 .last-run.json
 .dyad/
-.kilo/
