@@ -29,6 +29,5 @@ Available packages and libraries:
 - El fondo de la landing es una red de partículas tsParticles montada por `src/components/site/ParticlesBackground.tsx` (fijo, `z-0`, `aria-hidden`, `pointer-events: none`).
 - API v4 (importante): usa `ParticlesProvider` (no `initParticlesEngine`) con `init={loadSlim}`, y el color de partícula se define en `particles.paint.color.value` (NO en `particles.color`).
 - El contenedor y su `canvas` deben llevar `.particles-bg` para no capturar clics; el contenido va en `z-10` y `TopBar` en `z-30`.
-- Convención de tagger: los componentes de terceros de nombre simple se renderizan mediante expresión de miembro (p. ej. `import * as tsparticlesReact` y `<tsparticlesReact.Particles />`) para que el plugin `@dyad-sh/react-vite-component-tagger` no inyecte `data-dyad-*`.
 - `three`, `@react-three/fiber` y `@react-three/drei` ya no forman parte del proyecto.
 
