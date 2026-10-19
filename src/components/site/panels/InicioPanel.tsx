@@ -1,4 +1,5 @@
 import { motion, type Variants } from "framer-motion";
+import { ParticipantesMarquee } from "@/components/site/participantes/ParticipantesMarquee";
 
 const container: Variants = {
   hidden: {},
@@ -43,6 +44,24 @@ export function InicioPanel() {
           capacidades, impulsar pilotos y compartir avances que potencien la
           colaboración en las redes de valor.
         </p>
+      </motion.div>
+
+      <motion.div
+        variants={item}
+        className="flex w-full flex-col items-center gap-4 border-t border-komite-soft/10 pt-6"
+      >
+        <header className="flex flex-col items-center gap-1 text-center">
+          <h2 className="font-display text-xl font-semibold tracking-tight text-komite-ink sm:text-2xl">
+            Quiénes participan de la red
+          </h2>
+          <p className="max-w-md text-xs leading-snug text-komite-soft/80 sm:text-[13px]">
+            Empresas, instituciones y aliados que construyen la red de valor.
+          </p>
+        </header>
+
+        <div className="w-full">
+          <ParticipantesMarquee />
+        </div>
       </motion.div>
     </motion.div>
   );
